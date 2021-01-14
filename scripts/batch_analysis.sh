@@ -30,8 +30,9 @@ Rscript ~/git/dpse_mating/scripts/de_analysis.r ovary_maleEffectOfM 0.05
 # Rscript ~/git/dpse_mating/scripts/de_analysis.r ovary_rmEEov4 0.05
 
 # Compare E and M mated - not shown
-# Rscript ~/git/dpse_mating/scripts/de_analysis.r rtract_SSmated 0.05
-# Rscript ~/git/dpse_mating/scripts/de_analysis.r ovary_SSmated_rmEEov4 0.05
+## The first two DE genes were used by Wiberg 2021
+Rscript ~/git/dpse_mating/scripts/de_analysis.r rtract_SSmated 0.05
+Rscript ~/git/dpse_mating/scripts/de_analysis.r ovary_SSmated_rmEEov4 0.05
 # Rscript ~/git/dpse_mating/scripts/de_analysis.r rtract_SSmatedBothMales 0.05
 # Rscript ~/git/dpse_mating/scripts/de_analysis.r ovary_SSmatedBothMales 0.05
 # Rscript ~/git/dpse_mating/scripts/de_analysis.r rtract_matingWithinLine 0.05
