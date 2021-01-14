@@ -1,0 +1,3 @@
+model_coefficients	maleEffectOfE_EE/ME
+groupEE	1
+groupME	-1

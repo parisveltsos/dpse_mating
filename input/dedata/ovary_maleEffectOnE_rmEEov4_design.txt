@@ -1,0 +1,8 @@
+group	sample
+groupEM	EM_ov_1
+groupEM	EM_ov_2
+groupEE	EE_ov_1
+groupEE	EE_ov_2
+groupEM	EM_ov_3
+groupEM	EM_ov_4
+groupEE	EE_ov_3

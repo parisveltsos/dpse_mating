@@ -1,0 +1,28 @@
+1 common element in "UP M" and "Up E":
+FBgn0245560
+
+7 elements included exclusively in "Up E":
+FBgn0070691
+FBgn0070692
+FBgn0070792
+FBgn0074168
+FBgn0074857
+FBgn0243695
+FBgn0245145
+
+14 elements included exclusively in "Up EE":
+FBgn0070154
+FBgn0070834
+FBgn0072727
+FBgn0072935
+FBgn0074218
+FBgn0075575
+FBgn0076552
+FBgn0077417
+FBgn0243709
+FBgn0245509
+FBgn0245514
+FBgn0247724
+FBgn0250678
+FBgn0254803
+

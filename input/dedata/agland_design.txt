@@ -1,0 +1,9 @@
+group	sample
+groupM	M_ag_1
+groupM	M_ag_2
+groupE	E_ag_1
+groupE	E_ag_2
+groupM	M_ag_3
+groupM	M_ag_4
+groupE	E_ag_3
+groupE	E_ag_4

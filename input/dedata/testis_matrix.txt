@@ -1,0 +1,3 @@
+model_coefficients	maleVirgins_E/M
+groupE	1
+groupM	-1
