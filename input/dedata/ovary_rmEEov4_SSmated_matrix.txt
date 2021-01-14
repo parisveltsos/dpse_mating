@@ -1,0 +1,3 @@
+model_coefficients	SSmated_EE/MM
+groupEE	1
+groupMM	-1

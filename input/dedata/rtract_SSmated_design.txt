@@ -1,0 +1,9 @@
+group	sample
+groupMM	MM_rt_1
+groupMM	MM_rt_2
+groupEE	EE_rt_1
+groupEE	EE_rt_2
+groupMM	MM_rt_3
+groupMM	MM_rt_4
+groupEE	EE_rt_3
+groupEE	EE_rt_4
