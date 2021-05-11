@@ -20,11 +20,6 @@ col3 <- rgb(red = 0, green = 1, blue = 0, alpha = 0.6)
 col4 <- rgb(red = 0, green = 0, blue = 1, alpha = 0.6)
 col5 <- rgb(red = 0.7, green = 0, blue = 0.5, alpha = 0.6)
 
-# Setup input (default is command line)
-# args <- commandArgs(trailingOnly = TRUE)
-# sub_analyse = paste(args[1])
-# FDR2use = as.numeric(paste(args[2]))
-
 # use these to run the script manually
 sub_analyse <- 'rtract' # ovary rtract
 FDR2use <- 0.05
@@ -91,11 +86,11 @@ dev.off()
 ## Estimate data normalisation factors and dispersion
 xcpm <- mglmOneGroup(dgl$counts) # computing a logCPM for making dispersion plot
 dgl <- calcNormFactors(dgl)
-dgl <- estimateDisp(dgl, dmat, robust=TRUE)
+# dgl <- estimateDisp(dgl, dmat, robust=TRUE)
 plotBCV(dgl)
-#dgl <- estimateGLMCommonDisp(dgl, dmat)
-#dgl <- estimateGLMTrendedDisp(dgl, dmat, min.n=1000)
-#dgl <- estimateGLMTagwiseDisp(dgl, dmat)
+dgl <- estimateGLMCommonDisp(dgl, dmat)
+dgl <- estimateGLMTrendedDisp(dgl, dmat, min.n=1000)
+dgl <- estimateGLMTagwiseDisp(dgl, dmat)
 
 ## Dispersion plot
 pdf(file.path(outpath, paste('Dispersion_', sub_analyse, '.pdf', sep="")), width=8, height=8)
@@ -117,18 +112,22 @@ colnames(cmat)[1] <- colnames(sortedX[2])
 rownames(cmat) <- as.character(sortedX[,1])
  # cmat
 
-EvsM <- makeContrasts(groupgroupE-groupgroupEE, levels=dmat)
-res <- glmQLFTest(fit, contrast=EvsM)
-resold <- glmLRT(fitres, contrast=EvsM)
-topTags(res)
-topTags(lrtres[[1]])
-is.de <- decideTestsDGE(resold)
-# is.deold <- decideTestsDGE(lrtres[[1]])
-summary(is.de)
+# EvsM <- makeContrasts(groupgroupE-groupgroupEE, levels=dmat)
+# res <- glmQLFTest(fit, contrast=EvsM)
+# res <- glmLRT(fitres, contrast=EvsM)
+# topTags(res)
+# topTags(lrtres[[1]])
+# is.de <- decideTestsDGE(resold)
+# # is.deold <- decideTestsDGE(lrtres[[1]])
+# summary(is.de)
 
 # tr <- glmTreat(fit, contrast=B.LvsP, lfc=log2(1.5)) # relative to logFC threshold
 
-plotMD(res, status=is.de, values=c(1,-1), col=c("red","blue"), legend="topright")
+# plotMD(res, status=is.de, values=c(1,-1), col=c("red","blue"), legend="topright")
+plotMD(lrtres[[1]], status=decideTestsDGE(lrtres[[1]]), values=c(1,-1), col=c("red","blue"), legend="topright")
+plotMD(lrtres[[2]], status=decideTestsDGE(lrtres[[2]]), values=c(1,-1), col=c("red","blue"), legend="topright")
+plotMD(lrtres[[3]], status=decideTestsDGE(lrtres[[3]]), values=c(1,-1), col=c("red","blue"), legend="topright")
+plotMD(lrtres[[4]], status=decideTestsDGE(lrtres[[4]]), values=c(1,-1), col=c("red","blue"), legend="topright")
 
 
 logCPM <- cpm(y, prior.count=2, log=TRUE)
@@ -204,7 +203,7 @@ for (k in 1:wn) {
 ## Export number of DE genes table
 restab_frame <- as.data.frame(restab)
 
-for(logFC_use in c(2, 1, 0) ) {
+for(logFC_use in c(0 ) ) { # add 1,2 if needed
 de.yes.no <- FDR < FDR2use & abs(logFC) > logFC_use
 if (ncol(cmat) == 1) {
 	de4 <- which((FDR[,1] < FDR2use) == 0 & abs(logFC[,1] > logFC_use) != 0) } else {
@@ -250,7 +249,7 @@ list_de <- list()
 list_nonde <- list()
 
 ## Results for different logFC
-for(logFC_use in c(2, 1, 0) ) {
+for(logFC_use in c( 0) ) {
 
 for(k in 1:ncol(cmat)) {
 	list_de[[k]] <- subset(restab, restab[[paste('FDR.',colnames(cmat)[k], sep="")]] < FDR2use & abs(restab[[paste('logFC.',colnames(cmat)[k], sep="")]]) > logFC_use)
