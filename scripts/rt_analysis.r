@@ -124,11 +124,16 @@ rownames(cmat) <- as.character(sortedX[,1])
 # tr <- glmTreat(fit, contrast=B.LvsP, lfc=log2(1.5)) # relative to logFC threshold
 
 # plotMD(res, status=is.de, values=c(1,-1), col=c("red","blue"), legend="topright")
-par(mfrow=c(2,2)) 
+# plotMD(res, status=is.de, values=c(1,-1), col=c("red","blue"), legend="topright")
+par(mfrow=c(3,3)) 
 plotMD(lrtres[[1]], status=decideTestsDGE(lrtres[[1]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[1])
 plotMD(lrtres[[2]], status=decideTestsDGE(lrtres[[2]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[2])
 plotMD(lrtres[[3]], status=decideTestsDGE(lrtres[[3]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[3])
 plotMD(lrtres[[4]], status=decideTestsDGE(lrtres[[4]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[4])
+plotMD(lrtres[[5]], status=decideTestsDGE(lrtres[[5]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[5])
+plotMD(lrtres[[6]], status=decideTestsDGE(lrtres[[6]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[6])
+plotMD(lrtres[[7]], status=decideTestsDGE(lrtres[[7]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[7])
+
 
 
 logCPM <- cpm(y, prior.count=2, log=TRUE)
