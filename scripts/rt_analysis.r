@@ -103,8 +103,8 @@ dev.off()
 
 ##  fit the data model 
 fitres <- glmFit(dgl, dmat)
-# fit <- glmQLFit(dgl, dmat, robust=TRUE)
-# plotQLDisp(fit)
+# fitQ <- glmQLFit(dgl, dmat, robust=TRUE)
+# plotQLDisp(fitQ)
 x <- read.delim(file.path(datapath, paste(sub_analyse,'_matrix.txt', sep="")), header=T, sep="\t")
 sortedX <- data.frame(x[order(x$model_coefficients, decreasing=F),])
 cmat <- as.matrix(sortedX[,-1])
@@ -113,7 +113,7 @@ rownames(cmat) <- as.character(sortedX[,1])
  # cmat
 
 # EvsM <- makeContrasts(groupgroupE-groupgroupEE, levels=dmat)
-# res <- glmQLFTest(fit, contrast=EvsM)
+# res <- glmQLFTest(fitQ, contrast=EvsM)
 # res <- glmLRT(fitres, contrast=EvsM)
 # topTags(res)
 # topTags(lrtres[[1]])
@@ -124,10 +124,11 @@ rownames(cmat) <- as.character(sortedX[,1])
 # tr <- glmTreat(fit, contrast=B.LvsP, lfc=log2(1.5)) # relative to logFC threshold
 
 # plotMD(res, status=is.de, values=c(1,-1), col=c("red","blue"), legend="topright")
-plotMD(lrtres[[1]], status=decideTestsDGE(lrtres[[1]]), values=c(1,-1), col=c("red","blue"), legend="topright")
-plotMD(lrtres[[2]], status=decideTestsDGE(lrtres[[2]]), values=c(1,-1), col=c("red","blue"), legend="topright")
-plotMD(lrtres[[3]], status=decideTestsDGE(lrtres[[3]]), values=c(1,-1), col=c("red","blue"), legend="topright")
-plotMD(lrtres[[4]], status=decideTestsDGE(lrtres[[4]]), values=c(1,-1), col=c("red","blue"), legend="topright")
+par(mfrow=c(2,2)) 
+plotMD(lrtres[[1]], status=decideTestsDGE(lrtres[[1]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[1])
+plotMD(lrtres[[2]], status=decideTestsDGE(lrtres[[2]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[2])
+plotMD(lrtres[[3]], status=decideTestsDGE(lrtres[[3]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[3])
+plotMD(lrtres[[4]], status=decideTestsDGE(lrtres[[4]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[4])
 
 
 logCPM <- cpm(y, prior.count=2, log=TRUE)
@@ -143,6 +144,7 @@ colnames(logCPM) <- paste(y$samples$group, 1:2, sep="-")
 # Contrast fit and test results
 lrtres <- list()
 for(k in 1:ncol(cmat)) lrtres[[k]] <- glmLRT(fitres, contrast=cmat[,k])
+# for(k in 1:ncol(cmat)) lrtres[[k]] <- glmQLFTest(fitQ, contrast=cmat[,k])
 
 logFC <- NULL
 PV <- NULL
@@ -191,6 +193,8 @@ wn <- length(wug)
 for (k in 1:wn) {
 	ix <- wg %in% wug[k]
 	xmat <- log2(wx[,ix])
+#   ldata <- c(F,F,F,F,T,T,T,T,T,T,T,T,F,F,F,F,F,F,F,F,F,F,F,F)
+#	xmat <- log2(wx[,ldata])
 	pdf(file.path(outpath, paste('pairwise_raw_count_', wug[k], '_', sub_analyse,'.pdf', sep="")), width=8, height=8)
 	if (sum(ix) > 1 ) { 
 		pairs(xmat,pch=16,cex=0.4,main=wug[k]) 
