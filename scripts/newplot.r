@@ -45,3 +45,39 @@ for (i in 1:nrow(idata)) {
 	}
 legend("topright", inset=0.05, legend=c("virgin > mated", "virgin < mated"), pch =c(19,19), col=c(2,4), cex=0.8 )
 
+par(mar=c(5,5,4,3))
+plot(c(1,4), c(min(idata$cpmM, idata$cpmE, idata$cpmMM, idata$cpmEE), max(idata$cpmM, idata$cpmE, idata$cpmMM, idata$cpmEE)), type='n', ylab="normalised count", xlab="", main='E vs M interaction virgin vs mated')
+
+for (i in 1:nrow(idata)) {
+	if (idata$cpmE[i] > idata$cpmM[i] & idata$cpmMM[i] > idata$cpmEE[i] & idata$cpmE[i] > idata$cpmMM[i] & (idata$cpmM[i] + idata$cpmEE[i]) < (idata$cpmE[i] + idata$cpmMM[i])) {
+		lines(c(idata$cpmM[i],idata$cpmMM[i],idata$cpmE[i],idata$cpmEE[i]), col=2)
+	} else if (idata$cpmE[i] > idata$cpmM[i] & idata$cpmMM[i] > idata$cpmEE[i] & idata$cpmE[i] < idata$cpmMM[i] & (idata$cpmM[i] + idata$cpmEE[i]) < (idata$cpmE[i] + idata$cpmMM[i])) {
+	lines(c(idata$cpmM[i],idata$cpmMM[i],idata$cpmE[i],idata$cpmEE[i]), col=4)
+	}	
+		else {
+		lines(c(idata$cpmM[i],idata$cpmMM[i],idata$cpmE[i],idata$cpmEE[i]), col=5)
+			}
+	}
+	
+par(mfrow=c(1,3)) 	
+pat1 <- subset(idata, idata$cpmE > idata$cpmM & idata$cpmMM > idata$cpmEE & idata$cpmE > idata$cpmMM & (idata$cpmM + idata$cpmEE) < (idata$cpmE + idata$cpmMM))	
+plot(c(1,4), c(min(idata$cpmM, idata$cpmE, idata$cpmMM, idata$cpmEE), max(idata$cpmM, idata$cpmE, idata$cpmMM, idata$cpmEE)), type='n', ylab="normalised count", xlab="", main=paste('(E + MM) > (M + EE) & E > MM, line number:', nrow(pat1)))
+for (i in 1:nrow(pat1)) {
+		lines(c(pat1$cpmM[i],pat1$cpmMM[i],pat1$cpmE[i],pat1$cpmEE[i]), col=2)
+	}
+	
+pat2 <- subset(idata, idata$cpmE > idata$cpmM & idata$cpmMM > idata$cpmEE & idata$cpmE < idata$cpmMM & (idata$cpmM + idata$cpmEE) < (idata$cpmE + idata$cpmMM))	
+plot(c(1,4), c(min(idata$cpmM, idata$cpmE, idata$cpmMM, idata$cpmEE), max(idata$cpmM, idata$cpmE, idata$cpmMM, idata$cpmEE)), type='n', ylab="normalised count", xlab="", main=paste('(E + MM) > (M + EE) & E < MM, line number:', nrow(pat2)))
+for (i in 1:nrow(pat2)) {
+		lines(c(pat2$cpmM[i],pat2$cpmMM[i],pat2$cpmE[i],pat2$cpmEE[i]), col=4)
+	}
+
+pat3 <- subset(idata, idata$cpmE < cpmM)
+plot(c(1,4), c(min(idata$cpmM, idata$cpmE, idata$cpmMM, idata$cpmEE), max(idata$cpmM, idata$cpmE, idata$cpmMM, idata$cpmEE)), type='n', ylab="normalised count", xlab="", main=paste('E < M, line number:', nrow(pat3)))
+for (i in 1:nrow(pat3)) {
+		lines(c(pat3$cpmM[i],pat3$cpmMM[i],pat3$cpmE[i],pat3$cpmEE[i]), col=6)
+	}
+
+
+
+legend("topright", inset=0.05, legend=c("virgin > mated", "virgin < mated"), pch =c(19,19), col=c(2,4), cex=0.8 )
