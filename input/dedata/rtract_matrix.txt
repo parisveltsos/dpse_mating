@@ -1,15 +1,7 @@
 model_coefficients	EvsM	EEvsMM	E.MMvsM.EE	E.MvsEE.MM	EE.MEvsEM.MM	EE.MMvsEM.ME	allEvsM
 groupE	1	0	1	1	0	0	1
-<<<<<<< HEAD
 groupEE	0	1	-1	-1	1	1	1
 groupEM	0	0	0	0	-1	-1	0
-groupM	-1	0	-1	1	0	0	1
-groupME	0	0	0	0	1	-1	0
-groupMM	0	-1	1	-1	-1	1	-1
-=======
 groupM	-1	0	-1	1	0	0	-1
-groupEE	0	1	-1	-1	1	1	1
-groupMM	0	-1	1	-1	-1	1	-1
-groupEM	0	0	0	0	-1	-1	0
 groupME	0	0	0	0	1	-1	0
->>>>>>> 9a1654547481950ee420c222c7bc0d5735a3a325
+groupMM	0	-1	1	-1	-1	1	-1
