@@ -33,7 +33,7 @@ annotation <- read.delim(file.path(datapath, "exongeneanno.txt"), sep="\t", head
 count <- read.table(file.path(datapath, paste(sub_analyse,'_count.txt', sep="")), header=T, row.names=1)
 count <- head(count, -5)
 design <- read.table(file.path(datapath, paste(sub_analyse,'_design.txt', sep="")), header=T)
-design <- model.matrix(~0+group)
+# design <- model.matrix(~0+group)
 model.formula <- as.formula("~0+group")
 dmat <- model.matrix(model.formula, data=design)
 dgl <- DGEList(counts=count, group=design$group, genes=annotation)
