@@ -125,7 +125,7 @@ rownames(cmat) <- as.character(sortedX[,1])
 
 # plotMD(res, status=is.de, values=c(1,-1), col=c("red","blue"), legend="topright")
 # plotMD(res, status=is.de, values=c(1,-1), col=c("red","blue"), legend="topright")
-par(mfrow=c(3,3)) 
+par(mfrow=c(4,5)) 
 plotMD(lrtres[[1]], status=decideTestsDGE(lrtres[[1]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[1])
 plotMD(lrtres[[2]], status=decideTestsDGE(lrtres[[2]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[2])
 plotMD(lrtres[[3]], status=decideTestsDGE(lrtres[[3]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[3])
@@ -133,6 +133,18 @@ plotMD(lrtres[[4]], status=decideTestsDGE(lrtres[[4]]), values=c(1,-1), col=c("r
 plotMD(lrtres[[5]], status=decideTestsDGE(lrtres[[5]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[5])
 plotMD(lrtres[[6]], status=decideTestsDGE(lrtres[[6]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[6])
 plotMD(lrtres[[7]], status=decideTestsDGE(lrtres[[7]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[7])
+plotMD(lrtres[[8]], status=decideTestsDGE(lrtres[[8]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[8])
+plotMD(lrtres[[9]], status=decideTestsDGE(lrtres[[9]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[9])
+plotMD(lrtres[[10]], status=decideTestsDGE(lrtres[[10]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[10])
+plotMD(lrtres[[11]], status=decideTestsDGE(lrtres[[11]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[11])
+plotMD(lrtres[[12]], status=decideTestsDGE(lrtres[[12]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[12])
+plotMD(lrtres[[13]], status=decideTestsDGE(lrtres[[13]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[13])
+plotMD(lrtres[[14]], status=decideTestsDGE(lrtres[[14]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[14])
+plotMD(lrtres[[15]], status=decideTestsDGE(lrtres[[15]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[15])
+plotMD(lrtres[[16]], status=decideTestsDGE(lrtres[[16]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[16])
+plotMD(lrtres[[17]], status=decideTestsDGE(lrtres[[17]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[17])
+plotMD(lrtres[[18]], status=decideTestsDGE(lrtres[[18]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[18])
+plotMD(lrtres[[19]], status=decideTestsDGE(lrtres[[19]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[19])
 
 
 
@@ -683,14 +695,16 @@ for(k in 1:ncol(cmat)) {
 		cmat_subset <- subset(cmat, cmat[[colnames(cmat)[k]]]!=0) 
 		}
 	design_subset <- design[design$group %in% row.names(cmat_subset),]
+	design_full <- design[design$group %in% row.names(cmat),]
 	length(as.character(design_subset$sample))
 	rownames(restab_logCPM) <- restab_logCPM$gene
 	DE_counts <- subset(restab_logCPM, restab_logCPM[[paste('FDR.',colnames(cmat)[k], sep="")]] < FDR2use)
 	DE_counts_relevant <- subset(DE_counts, select=as.character(design_subset$sample))
+	DE_counts_full <- subset(DE_counts, select=as.character(design_full$sample))
 
-	if (nrow(DE_counts_relevant) > 2) {
-	pdf(file.path(outpath, paste('Heatmap_', FDR2use, '_DE_', colnames(cmat)[k], '_', sub_analyse, '.pdf', sep="")), width=8, height=8)
-	cmethods <- c('median', 'average', 'ward.D') # complete ward.D average median ward.D2 mcquitty centroid single
+# 	if (nrow(DE_counts_relevant) > 2) {
+# 	pdf(file.path(outpath, paste('Heatmap_', FDR2use, '_DE_', colnames(cmat)[k], '_', sub_analyse, '.pdf', sep="")), width=8, height=8)
+# 	cmethods <- c('median', 'average', 'ward.D') # complete ward.D average median ward.D2 mcquitty centroid single
 
 
 # safe heatmap if cutreeDynamic crashes "Error in 1:sizes[2] : NA/NaN argument"
@@ -699,13 +713,18 @@ pdf(file.path(outpath, paste('Heatmap_robustDE_', FDR2use, '_DE_', colnames(cmat
 cmethods <- c('median', 'average', 'ward.D') 
 for(m in 1:length(cmethods)) {
 d <- as.matrix(DE_counts_relevant)
+dfull <- as.matrix(DE_counts_full)
 myheatcol <- colorpanel(100, cbred,'white', cbblue) # choose a color palette for the heat map
 distmatrix <- as.dist(1-cor(t(d), method="pearson"))
+distmatrix.full <- as.dist(1-cor(t(dfull), method="pearson"))
 hr <- hclust(distmatrix, method=cmethods[m])  # plot(hr)
+hr.full <- hclust(distmatrix.full, method=cmethods[m])  # plot(hr)
 mycl <- cutree(hr, k=2) # dynamic tree cut
+mycl.full <- cutree(hr.full, k=2) # dynamic tree cut
 
 
 heatmap.2(d, col=myheatcol,  Rowv=reorder(as.dendrogram(hr), wts=mycl), keysize=1.3, scale="row", density.info="density", trace="none", cexCol=0.9, cexRow=0.5, main=paste(sub_analyse, cmethods[m], 'FDR', FDR2use), srtCol=45, key.title=NA) 
+heatmap.2(dfull, col=myheatcol,  Rowv=reorder(as.dendrogram(hr.full), wts=mycl.full), keysize=1.3, scale="row", density.info="density", trace="none", cexCol=0.9, cexRow=0.5, main=paste(sub_analyse, cmethods[m], 'FDR', FDR2use), srtCol=45, key.title=NA) 
 }
 dev.off()
 }
@@ -735,6 +754,6 @@ dev.off()
 	print(paste(colnames(cmat)[k], 'groups:  median', length(levels(DE_counts$median)), '  ward', length(levels(DE_counts$ward)), '  complete', length(levels(DE_counts$complete)), '  average', length(levels(DE_counts$average)), '  ward2', length(levels(DE_counts$ward.D2)), '  mcquitty', length(levels(DE_counts$mcquitty)), '  centroid', length(levels(DE_counts$centroid)), '  centroid', length(levels(DE_counts$centroid)),sep=" "))
 	write.table(DE_counts, file=file.path(outpath, paste('clusters',FDR2use, '_', sub_analyse, '_',colnames(cmat)[k], '.txt', sep="")), quote=F, row.names=F, sep='\t')
 	}
-}
+
 
 
