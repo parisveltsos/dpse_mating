@@ -25,7 +25,8 @@ sub_analyse <- 'rtract' # ovary rtract
 FDR2use <- 0.05
 
 datapath <- "~/git/dpse_mating/input/dedata/"
-outpath <- paste('~/git/dpse_mating/output/dedata/', sub_analyse, sep="")
+# outpath <- paste('~/git/dpse_mating/output/dedata/', sub_analyse, sep="")
+outpath <- paste('~/Library/Mobile Documents/com~apple~CloudDocs/MyDocuments/Work/Projects/gitOut/dpseMating/dedata/', sub_analyse, sep="")
 dir.create(file.path(outpath))
 
 annotation <- read.delim(file.path(datapath, "exongeneanno.txt"), sep="\t", header=TRUE, stringsAsFactors=FALSE)
