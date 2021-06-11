@@ -88,10 +88,10 @@ dev.off()
 xcpm <- mglmOneGroup(dgl$counts) # computing a logCPM for making dispersion plot
 dgl <- calcNormFactors(dgl)
 # dgl <- estimateDisp(dgl, dmat, robust=TRUE)
-plotBCV(dgl)
 dgl <- estimateGLMCommonDisp(dgl, dmat)
 dgl <- estimateGLMTrendedDisp(dgl, dmat, min.n=1000)
 dgl <- estimateGLMTagwiseDisp(dgl, dmat)
+plotBCV(dgl)
 
 ## Dispersion plot
 pdf(file.path(outpath, paste('Dispersion_', sub_analyse, '.pdf', sep="")), width=8, height=8)
