@@ -31,7 +31,8 @@ abline(coef = c(0,1), col='darkgreen')
 plot(kdata$logFC.E.MvsEE.MM, kdata$logFC.E.MMvsM.EE, xlab="virgin vs mated logFC", ylab="interaction logFC", main="virgin/mated vs interaction", cex.main=1.8, cex.lab=1.3, col='gray80')
 points(kdata$logFC.E.MvsEE.MM[kdata$FDR.E.MMvsM.EE<0.05], kdata$logFC.E.MMvsM.EE[kdata$FDR.E.MMvsM.EE<0.05], pch=20, col=4)
 points(kdata$logFC.E.MvsEE.MM[kdata$FDR.E.MvsEE.MM<0.05], kdata$logFC.E.MMvsM.EE[kdata$FDR.E.MvsEE.MM<0.05], pch=4, col=2)
-points(kdata$logFC.E.MvsEE.MM[kdata$FDR.allEvsM<0.05], kdata$logFC.E.MMvsM.EE[kdata$FDR.allEvsM<0.05], pch=3, col=6)
+points(kdata$logFC.E.MvsEE.MM[kdata$FDR.MvsEE<0.05], kdata$logFC.E.MMvsM.EE[kdata$FDR.MvsEE<0.05], pch=2, col=7)
+points(kdata$logFC.E.MvsEE.MM[kdata$FDR.EvsMM<0.05], kdata$logFC.E.MMvsM.EE[kdata$FDR.EvsMM<0.05], pch=3, col=8)
 legend("topleft", inset=0.05, legend=c("E.MMvsM.EE", "E.MvsEE.MM", "all E vs M"), pch =c(20,4,3), col=c(4,2, 6) ) 
 abline(h=0, col='darkgreen')
 abline(v=0, col='darkgreen')
@@ -40,11 +41,26 @@ plot(kdata$logFC.E.MvsEE.MM, kdata$logFC.allEvsM, xlab="virgin vs mated logFC", 
 points(kdata$logFC.E.MvsEE.MM[kdata$FDR.E.MMvsM.EE<0.05], kdata$logFC.allEvsM[kdata$FDR.E.MMvsM.EE<0.05], pch=20, col=4)
 points(kdata$logFC.E.MvsEE.MM[kdata$FDR.E.MvsEE.MM<0.05], kdata$logFC.allEvsM[kdata$FDR.E.MvsEE.MM<0.05], pch=4, col=2)
 points(kdata$logFC.E.MvsEE.MM[kdata$FDR.allEvsM<0.05], kdata$logFC.allEvsM[kdata$FDR.allEvsM<0.05], pch=3, col=6)
+points(kdata$logFC.E.MvsEE.MM[kdata$FDR.allEvsM<0.05], kdata$logFC.allEvsM[kdata$FDR.allEvsM<0.05], pch=3, col=6)
 legend("topleft", inset=0.05, legend=c("E.MMvsM.EE", "virgin/mated", "all E vs M"), pch =c(20,4,3), col=c(4,2, 6) ) 
 abline(h=0, col='darkgreen')
 abline(v=0, col='darkgreen')
 
+par(mfrow=c(1,2)) 
 
+plot(kdata$logFC.MvsMM, kdata$logFC.EvsEE, xlab="M vs MM", ylab="E vs EE", main="nothing", cex.main=1.8, cex.lab=1.3, col='gray80')
+points(kdata$logFC.MvsMM[kdata$FDR.E.MMvsM.EE<0.05], kdata$logFC.EvsEE[kdata$FDR.E.MMvsM.EE<0.05], pch=20, col="darkgreen")
+points(kdata$logFC.MvsMM[kdata$FDR.E.MvsEE.MM<0.05], kdata$logFC.EvsEE[kdata$FDR.E.MvsEE.MM<0.05], pch=20, col=2)
+abline(h=0, col='darkgreen')
+abline(v=0, col='darkgreen')
+
+plot(kdata$logFC.MvsMM, kdata$logFC.EvsEE, xlab="M vs MM", ylab="E vs EE", main="nothing", cex.main=1.8, cex.lab=1.3, col='gray80')
+points(kdata$logFC.MvsMM[kdata$FDR.EvsEE<0.05], kdata$logFC.EvsEE[kdata$FDR.EvsEE<0.05], pch=3, col="blue")
+points(kdata$logFC.MvsMM[kdata$FDR.MvsMM<0.05], kdata$logFC.EvsEE[kdata$FDR.MvsMM<0.05], pch=4, col="orange")
+abline(h=0, col='darkgreen')
+abline(v=0, col='darkgreen')
+
+legend("bottomright", inset=0.05, legend=c("interaction", "virgin/mated", "E vs EE", "M vs MM"), col =c("darkgreen",2,"blue", "orange"), pch=c(20,20, 4,4) ) 
 
 
 idata <- subset(kdata, kdata$FDR.E.MMvsM.EE<0.05)
