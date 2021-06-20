@@ -1,7 +1,7 @@
-model_coefficients	EvsM	EEvsMM	E.MMvsM.EE	E.MvsEE.MM	EE.MEvsEM.MM	EE.MMvsEM.ME	allEvsM	MMvsME	EEvsEM	MMvsEM	EEvsME	EvsEE	MvsMM	MvsEE	EvsMM	MvsME	MvsEM	EvsME	EvsEM
-groupE	1	0	1	1	0	0	1	0	0	0	0	1	0	0	1	0	0	1	1
-groupEE	0	1	-1	-1	1	1	1	0	1	0	1	-1	0	-1	0	0	0	0	0
-groupEM	0	0	0	0	-1	-1	0	0	-1	-1	0	0	0	0	0	0	-1	0	-1
-groupM	-1	0	-1	1	0	0	-1	0	0	0	0	0	1	1	0	1	1	0	0
-groupME	0	0	0	0	1	-1	0	1	0	0	-1	0	0	0	0	-1	0	-1	0
-groupMM	0	-1	1	-1	-1	1	-1	-1	0	1	0	0	-1	0	-1	0	0	0	0
+model_coefficients	EvsM	EEvsMM	allEvsM	E.MvsEE.MM	E.MMvsM.EE	E.MvsEE.MM.EM.ME	EE.MEvsEM.MM	EE.MMvsEM.ME	EE.EMvsMM.ME	MMvsME	EEvsEM	MMvsEM	EEvsME	EvsEE	MvsMM
+groupE	1	0	1	1	1	1	0	0	0	0	0	0	0	1	0
+groupEE	0	1	1	-1	-1	1	1	1	1	0	1	0	1	-1	0
+groupEM	0	0	0	0	0	-.5	-1	-1	1	0	-1	-1	0	0	0
+groupM	-1	0	-1	1	-1	-.5	0	0	0	0	0	0	0	0	1
+groupME	0	0	0	0	0	-.5	1	-1	-1	1	0	0	-1	0	0
+groupMM	0	-1	-1	-1	1	-.5	-1	1	-1	-1	0	1	0	0	-1

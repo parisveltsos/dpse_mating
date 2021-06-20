@@ -1,7 +1,3 @@
-datapath <- "~/Library/Mobile Documents/com~apple~CloudDocs/MyDocuments/Work/Projects/gitOut/dpseMating/dedata/ovary"
-kdata <- read.table(file.path(datapath, "LogCPM_0.05_ovary.txt"), header=T)
-str(kdata)
-
 sgrey = rgb(0, 0, 0, 0.1)
 cbblue <- "#2271B2"
 cblblue <- '#3DB7E9'
@@ -13,16 +9,108 @@ cbyellow <- "#F0E442"
 cbpurple <- "#8400CD" 
 cbred <- "#E20134" # not with brown, orange, yellow
 
+ovpath <- "~/Library/Mobile Documents/com~apple~CloudDocs/MyDocuments/Work/Projects/gitOut/dpseMating/dedata/ovary4"
+ovdata <- read.table(file.path(ovpath, "LogCPM_0.05_ovary4.txt"), header=T)
+str(ovdata)
 
-# par(mfrow=c(1,2)) 
+frtpath <- "~/Library/Mobile Documents/com~apple~CloudDocs/MyDocuments/Work/Projects/gitOut/dpseMating/dedata/rtract4"
+frtdata <- read.table(file.path(frtpath, "LogCPM_0.05_rtract.txt"), header=T)
+str(frtdata)
+
+outpath <- '/Users/pveltsos/Library/Mobile Documents/com~apple~CloudDocs/MyDocuments/Work/Projects/gitOut/dpseMating/scatterplot'
+
+pdf(file.path(outpath,"virginMatedPlot.pdf"), width=12, height=6)
+par(mfrow=c(1,2)) 
 par(mar=c(5,5,4,3))
-plot(kdata$logFC.MvsMM*(-1), kdata$logFC.EvsEE*(-1), xlab="logFC M vs MM", ylab="logFC E vs EE", main="Line x Mating", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
-points(kdata$logFC.MvsMM[kdata$FDR.E.MMvsM.EE<0.05]*(-1), kdata$logFC.EvsEE[kdata$FDR.E.MMvsM.EE<0.05]*(-1), pch=20, col=cbgreen)
-points(kdata$logFC.MvsMM[kdata$FDR.E.MvsEE.MM<0.05]*(-1), kdata$logFC.EvsEE[kdata$FDR.E.MvsEE.MM<0.05]*(-1), pch=20, col=cbblue)
+plot(frtdata$logFC.MvsMM*(-1), frtdata$logFC.EvsEE*(-1), xlab="logFC M vs MM", ylab="logFC E vs EE", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(frtdata$logFC.MvsMM[frtdata$FDR.E.MvsEE.MM<0.05]*(-1), frtdata$logFC.EvsEE[frtdata$FDR.E.MvsEE.MM<0.05]*(-1), pch=20, col=cbblue)
+# points(frtdata$logFC.MvsMM[frtdata$FDR.E.MvsEE.MM.EM.ME<0.05]*(-1), frtdata$logFC.EvsEE[frtdata$FDR.E.MvsEE.MM.EM.ME<0.05]*(-1), pch=20, col=cbred)
+points(frtdata$logFC.MvsMM[frtdata$FDR.E.MMvsM.EE<0.05]*(-1), frtdata$logFC.EvsEE[frtdata$FDR.E.MMvsM.EE<0.05]*(-1), pch=20, col=cbgreen)
 abline(v=0, lty=2, lw=1, col=1)
 abline(h=0, lty=2, lw=1, col=1)
 
-legend("topleft", inset=0.05, legend=c("DE All virgin vs mated main: congruent", "DE Interaction: non-congruent"), col =c(cbblue,cbgreen), pch=c(20,20), cex=.8 ) 
+legend("topleft", inset=0.05, legend=c("Virgin vs mated", "Interaction"), col =c(cbblue,cbgreen), pch=c(20,20), cex=.8 ) 
+
+par(mar=c(5,5,4,3))
+plot(ovdata$logFC.MvsMM*(-1), ovdata$logFC.EvsEE*(-1), xlab="logFC M vs MM", ylab="logFC E vs EE", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(ovdata$logFC.MvsMM[ovdata$FDR.E.MvsEE.MM<0.05]*(-1), ovdata$logFC.EvsEE[ovdata$FDR.E.MvsEE.MM<0.05]*(-1), pch=20, col=cbblue)
+# points(ovdata$logFC.MvsMM[ovdata$FDR.E.MvsEE.MM.EM.ME<0.05]*(-1), ovdata$logFC.EvsEE[ovdata$FDR.E.MvsEE.MM.EM.ME<0.05]*(-1), pch=20, col=cbred)
+points(ovdata$logFC.MvsMM[ovdata$FDR.E.MMvsM.EE<0.05]*(-1), ovdata$logFC.EvsEE[ovdata$FDR.E.MMvsM.EE<0.05]*(-1), pch=20, col=cbgreen)
+abline(v=0, lty=2, lw=1, col=1)
+abline(h=0, lty=2, lw=1, col=1)
+
+# legend("topleft", inset=0.05, legend=c("Virgin vs mated"), col =c(cbblue), pch=c(20), cex=.8 ) 
+dev.off()
+
+
+pdf(file.path(outpath,"maleFemalePlot.pdf"), width=12, height=6)
+par(mfrow=c(1,2)) 
+par(mar=c(5,5,4,3))
+
+plot(frtdata$logFC.EE.MEvsEM.MM, frtdata$logFC.EE.EMvsMM.ME, xlab="logFC EE.MEvsEM.MM (male effect)", ylab="logFC EE.EMvsMM.ME (female effect)", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(frtdata$logFC.EE.MEvsEM.MM[frtdata$FDR.EE.MEvsEM.MM<0.05], frtdata$logFC.EE.EMvsMM.ME[frtdata$FDR.EE.MEvsEM.MM<0.05], pch=20, col=cbblue)
+points(frtdata$logFC.EE.MEvsEM.MM[frtdata$FDR.EE.EMvsMM.ME<0.05], frtdata$logFC.EE.EMvsMM.ME[frtdata$FDR.EE.EMvsMM.ME<0.05], pch=20, col=cborange)
+points(frtdata$logFC.EE.MEvsEM.MM[frtdata$FDR.EE.MMvsEM.ME<0.05], frtdata$logFC.EE.EMvsMM.ME[frtdata$FDR.EE.MMvsEM.ME<0.05], pch=20, col=cbgreen)
+abline(v=0, lty=2, lw=1, col=1)
+abline(h=0, lty=2, lw=1, col=1)
+legend("topleft", inset=0.05, legend=c("Male effect", "Female effect", "Interaction"), col =c(cbblue,cborange,cbgreen), pch=c(20), cex=.8 ) 
+
+par(mar=c(5,5,4,3))
+plot(ovdata$logFC.EE.MEvsEM.MM, ovdata$logFC.EE.EMvsMM.ME, xlab="logFC EE.MEvsEM.MM (male effect)", ylab="logFC EE.EMvsMM.ME (female effect)", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(ovdata$logFC.EE.MEvsEM.MM[ovdata$FDR.EE.MEvsEM.MM<0.05], ovdata$logFC.EE.EMvsMM.ME[ovdata$FDR.EE.MEvsEM.MM<0.05], pch=20, col=cbblue)
+points(ovdata$logFC.EE.MEvsEM.MM[ovdata$FDR.EE.EMvsMM.ME<0.05], ovdata$logFC.EE.EMvsMM.ME[ovdata$FDR.EE.EMvsMM.ME<0.05], pch=20, col=cborange)
+points(ovdata$logFC.EE.MEvsEM.MM[ovdata$FDR.EE.MMvsEM.ME<0.05], ovdata$logFC.EE.EMvsMM.ME[ovdata$FDR.EE.MMvsEM.ME<0.05], pch=20, col=cbgreen)
+abline(v=0, lty=2, lw=1, col=1)
+abline(h=0, lty=2, lw=1, col=1)
+dev.off()
+
+
+
+
+
+pdf(file.path(outpath,"maleFemalePlot2.pdf"), width=12, height=6)
+par(mfrow=c(1,2)) 
+par(mar=c(5,5,4,3))
+
+plot(frtdata$logFC.EEvsEM, frtdata$logFC.MMvsME, xlab="logFC EEvsEM (E female effect)", ylab="logFC MMvsME (M female effect)", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(frtdata$logFC.EEvsEM[frtdata$FDR.EE.MEvsEM.MM<0.05], frtdata$logFC.MMvsME[frtdata$FDR.EE.MEvsEM.MM<0.05], pch=20, col=cbblue)
+points(frtdata$logFC.EEvsEM[frtdata$FDR.EE.EMvsMM.ME<0.05], frtdata$logFC.MMvsME[frtdata$FDR.EE.EMvsMM.ME<0.05], pch=20, col=cborange)
+points(frtdata$logFC.EEvsEM[frtdata$FDR.EE.MMvsEM.ME<0.05], frtdata$logFC.MMvsME[frtdata$FDR.EE.MMvsEM.ME<0.05], pch=20, col=cbgreen)
+abline(v=0, lty=2, lw=1, col=1)
+abline(h=0, lty=2, lw=1, col=1)
+legend("topleft", inset=0.05, legend=c("Male effect", "Female effect", "Interaction"), col =c(cbblue,cborange,cbgreen), pch=c(20), cex=.8 ) 
+
+par(mar=c(5,5,4,3))
+plot(ovdata$logFC.EE.MEvsEM.MM, ovdata$logFC.EE.EMvsMM.ME, xlab="logFC EEvsEM (E female effect)", ylab="logFC MMvsME (M female effect)", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(ovdata$logFC.EEvsEM[ovdata$FDR.EE.MEvsEM.MM<0.05], ovdata$logFC.MMvsME[ovdata$FDR.EE.MEvsEM.MM<0.05], pch=20, col=cbblue)
+points(ovdata$logFC.EEvsEM[ovdata$FDR.EE.EMvsMM.ME<0.05], ovdata$logFC.MMvsME[ovdata$FDR.EE.EMvsMM.ME<0.05], pch=20, col=cborange)
+points(ovdata$logFC.EEvsEM[ovdata$FDR.EE.MMvsEM.ME<0.05], ovdata$logFC.MMvsME[ovdata$FDR.EE.MMvsEM.ME<0.05], pch=20, col=cbgreen)
+abline(v=0, lty=2, lw=1, col=1)
+abline(h=0, lty=2, lw=1, col=1)
+dev.off()
+
+
+
+pdf(file.path(outpath,"maleFemalePlot3.pdf"), width=12, height=6)
+par(mfrow=c(1,2)) 
+par(mar=c(5,5,4,3))
+
+plot(frtdata$logFC.EEvsME, frtdata$logFC.MMvsEM, xlab="logFC EEvsME (E male effect)", ylab="logFC MMvsEM (M male effect)", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(frtdata$logFC.EEvsME[frtdata$FDR.EE.MEvsEM.MM<0.05], frtdata$logFC.MMvsEM[frtdata$FDR.EE.MEvsEM.MM<0.05], pch=20, col=cbblue)
+points(frtdata$logFC.EEvsME[frtdata$FDR.EE.EMvsMM.ME<0.05], frtdata$logFC.MMvsEM[frtdata$FDR.EE.EMvsMM.ME<0.05], pch=20, col=cborange)
+points(frtdata$logFC.EEvsME[frtdata$FDR.EE.MMvsEM.ME<0.05], frtdata$logFC.MMvsEM[frtdata$FDR.EE.MMvsEM.ME<0.05], pch=20, col=cbgreen)
+abline(v=0, lty=2, lw=1, col=1)
+abline(h=0, lty=2, lw=1, col=1)
+legend("bottomleft", inset=0.05, legend=c("Male effect", "Female effect", "Interaction"), col =c(cbblue,cborange,cbgreen), pch=c(20), cex=.8 ) 
+
+par(mar=c(5,5,4,3))
+plot(ovdata$logFC.EEvsME, ovdata$logFC.MMvsEM, xlab="logFC EEvsEM (E male effect)", ylab="logFC MMvsME (M male effect)", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(ovdata$logFC.EEvsME[ovdata$FDR.EE.MEvsEM.MM<0.05], ovdata$logFC.MMvsEM[ovdata$FDR.EE.MEvsEM.MM<0.05], pch=20, col=cbblue)
+points(ovdata$logFC.EEvsME[ovdata$FDR.EE.EMvsMM.ME<0.05], ovdata$logFC.MMvsEM[ovdata$FDR.EE.EMvsMM.ME<0.05], pch=20, col=cborange)
+points(ovdata$logFC.EEvsME[ovdata$FDR.EE.MMvsEM.ME<0.05], ovdata$logFC.MMvsEM[ovdata$FDR.EE.MMvsEM.ME<0.05], pch=20, col=cbgreen)
+abline(v=0, lty=2, lw=1, col=1)
+abline(h=0, lty=2, lw=1, col=1)
+dev.off()
 
 # plot(kdata$logFC.MvsMM, kdata$logFC.EvsEE, xlab="M vs MM", ylab="E vs EE", main="nothing", cex.main=1.8, cex.lab=1.3, col='gray80')
 # points(kdata$logFC.MvsMM[kdata$FDR.EvsEE<0.05], kdata$logFC.EvsEE[kdata$FDR.EvsEE<0.05], pch=3, col="blue")
