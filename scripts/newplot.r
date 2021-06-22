@@ -9,12 +9,12 @@ cbyellow <- "#F0E442"
 cbpurple <- "#8400CD" 
 cbred <- "#E20134" # not with brown, orange, yellow
 
-ovpath <- "~/Library/Mobile Documents/com~apple~CloudDocs/MyDocuments/Work/Projects/gitOut/dpseMating/dedata/ovary4"
-ovdata <- read.table(file.path(ovpath, "LogCPM_0.05_ovary4.txt"), header=T)
+ovpath <- "~/Library/Mobile Documents/com~apple~CloudDocs/MyDocuments/Work/Projects/gitOut/dpseMating/dedata/ovary4b"
+ovdata <- read.table(file.path(ovpath, "LogCPM_0.05_ovary4b.txt"), header=T)
 str(ovdata)
 
-frtpath <- "~/Library/Mobile Documents/com~apple~CloudDocs/MyDocuments/Work/Projects/gitOut/dpseMating/dedata/rtract4"
-frtdata <- read.table(file.path(frtpath, "LogCPM_0.05_rtract.txt"), header=T)
+frtpath <- "~/Library/Mobile Documents/com~apple~CloudDocs/MyDocuments/Work/Projects/gitOut/dpseMating/dedata/rtract4b"
+frtdata <- read.table(file.path(frtpath, "LogCPM_0.05_rtract4b.txt"), header=T)
 str(frtdata)
 
 outpath <- '/Users/pveltsos/Library/Mobile Documents/com~apple~CloudDocs/MyDocuments/Work/Projects/gitOut/dpseMating/scatterplot'
@@ -24,7 +24,7 @@ par(mfrow=c(1,2))
 par(mar=c(5,5,4,3))
 plot(frtdata$logFC.MvsMM*(-1), frtdata$logFC.EvsEE*(-1), xlab="logFC M vs MM", ylab="logFC E vs EE", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
 points(frtdata$logFC.MvsMM[frtdata$FDR.E.MvsEE.MM<0.05]*(-1), frtdata$logFC.EvsEE[frtdata$FDR.E.MvsEE.MM<0.05]*(-1), pch=20, col=cbblue)
-# points(frtdata$logFC.MvsMM[frtdata$FDR.E.MvsEE.MM.EM.ME<0.05]*(-1), frtdata$logFC.EvsEE[frtdata$FDR.E.MvsEE.MM.EM.ME<0.05]*(-1), pch=20, col=cbred)
+# points(frtdata$logFC.MvsMM[frtdata$FDR.E.MvsEE.MM.EM.ME<0.05]*(-1), frtdata$logFC.EvsEE[frtdata$FDR.E.MvsEE.MM.EM.ME<0.05]*(-1), pch=4, col=cbred)
 points(frtdata$logFC.MvsMM[frtdata$FDR.E.MMvsM.EE<0.05]*(-1), frtdata$logFC.EvsEE[frtdata$FDR.E.MMvsM.EE<0.05]*(-1), pch=20, col=cbgreen)
 abline(v=0, lty=2, lw=1, col=1)
 abline(h=0, lty=2, lw=1, col=1)
@@ -51,15 +51,20 @@ plot(frtdata$logFC.EE.MEvsEM.MM, frtdata$logFC.EE.EMvsMM.ME, xlab="logFC EE.MEvs
 points(frtdata$logFC.EE.MEvsEM.MM[frtdata$FDR.EE.MEvsEM.MM<0.05], frtdata$logFC.EE.EMvsMM.ME[frtdata$FDR.EE.MEvsEM.MM<0.05], pch=20, col=cbblue)
 points(frtdata$logFC.EE.MEvsEM.MM[frtdata$FDR.EE.EMvsMM.ME<0.05], frtdata$logFC.EE.EMvsMM.ME[frtdata$FDR.EE.EMvsMM.ME<0.05], pch=20, col=cborange)
 points(frtdata$logFC.EE.MEvsEM.MM[frtdata$FDR.EE.MMvsEM.ME<0.05], frtdata$logFC.EE.EMvsMM.ME[frtdata$FDR.EE.MMvsEM.ME<0.05], pch=20, col=cbgreen)
+points(frtdata$logFC.EE.MEvsEM.MM[frtdata$FDR.MMvsEM<0.05], frtdata$logFC.EE.EMvsMM.ME[frtdata$FDR.MMvsEM<0.05], pch=4, col=cbred)
+points(frtdata$logFC.EE.MEvsEM.MM[frtdata$FDR.EEvsME<0.05], frtdata$logFC.EE.EMvsMM.ME[frtdata$FDR.EEvsME<0.05], pch=3, col=cbgreen)
 abline(v=0, lty=2, lw=1, col=1)
 abline(h=0, lty=2, lw=1, col=1)
 legend("topleft", inset=0.05, legend=c("Male effect", "Female effect", "Interaction"), col =c(cbblue,cborange,cbgreen), pch=c(20), cex=.8 ) 
+legend("bottomright", inset=0.05, legend=c("Male effect", "Female effect", "Interaction", "MM.EM", "EE.ME"), col =c(cbblue,cborange,cbgreen, cbred, cbgreen), pch=c(20,20,20,4,3), cex=.8 ) 
 
 par(mar=c(5,5,4,3))
 plot(ovdata$logFC.EE.MEvsEM.MM, ovdata$logFC.EE.EMvsMM.ME, xlab="logFC EE.MEvsEM.MM (male effect)", ylab="logFC EE.EMvsMM.ME (female effect)", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
 points(ovdata$logFC.EE.MEvsEM.MM[ovdata$FDR.EE.MEvsEM.MM<0.05], ovdata$logFC.EE.EMvsMM.ME[ovdata$FDR.EE.MEvsEM.MM<0.05], pch=20, col=cbblue)
 points(ovdata$logFC.EE.MEvsEM.MM[ovdata$FDR.EE.EMvsMM.ME<0.05], ovdata$logFC.EE.EMvsMM.ME[ovdata$FDR.EE.EMvsMM.ME<0.05], pch=20, col=cborange)
 points(ovdata$logFC.EE.MEvsEM.MM[ovdata$FDR.EE.MMvsEM.ME<0.05], ovdata$logFC.EE.EMvsMM.ME[ovdata$FDR.EE.MMvsEM.ME<0.05], pch=20, col=cbgreen)
+points(ovdata$logFC.EE.MEvsEM.MM[ovdata$FDR.MMvsEM<0.05], ovdata$logFC.EE.EMvsMM.ME[ovdata$FDR.MMvsEM<0.05], pch=4, col=cbred)
+points(ovdata$logFC.EE.MEvsEM.MM[ovdata$FDR.EEvsME<0.05], ovdata$logFC.EE.EMvsMM.ME[ovdata$FDR.EEvsME<0.05], pch=3, col=cbgreen)
 abline(v=0, lty=2, lw=1, col=1)
 abline(h=0, lty=2, lw=1, col=1)
 dev.off()
@@ -104,7 +109,7 @@ abline(h=0, lty=2, lw=1, col=1)
 legend("bottomleft", inset=0.05, legend=c("Male effect", "Female effect", "Interaction"), col =c(cbblue,cborange,cbgreen), pch=c(20), cex=.8 ) 
 
 par(mar=c(5,5,4,3))
-plot(ovdata$logFC.EEvsME, ovdata$logFC.MMvsEM, xlab="logFC EEvsEM (E male effect)", ylab="logFC MMvsME (M male effect)", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+plot(ovdata$logFC.EEvsME, ovdata$logFC.MMvsEM, xlab="logFC EEvsME (E male effect)", ylab="logFC MMvsEM (M male effect)", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
 points(ovdata$logFC.EEvsME[ovdata$FDR.EE.MEvsEM.MM<0.05], ovdata$logFC.MMvsEM[ovdata$FDR.EE.MEvsEM.MM<0.05], pch=20, col=cbblue)
 points(ovdata$logFC.EEvsME[ovdata$FDR.EE.EMvsMM.ME<0.05], ovdata$logFC.MMvsEM[ovdata$FDR.EE.EMvsMM.ME<0.05], pch=20, col=cborange)
 points(ovdata$logFC.EEvsME[ovdata$FDR.EE.MMvsEM.ME<0.05], ovdata$logFC.MMvsEM[ovdata$FDR.EE.MMvsEM.ME<0.05], pch=20, col=cbgreen)

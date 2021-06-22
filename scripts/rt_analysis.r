@@ -21,7 +21,7 @@ col4 <- rgb(red = 0, green = 0, blue = 1, alpha = 0.6)
 col5 <- rgb(red = 0.7, green = 0, blue = 0.5, alpha = 0.6)
 
 # use these to run the script manually
-sub_analyse <- 'rtract' # ovary rtract
+sub_analyse <- 'ovary4b' # ovary rtract
 FDR2use <- 0.05
 
 datapath <- "~/git/dpse_mating/input/dedata/"
@@ -142,10 +142,6 @@ plotMD(lrtres[[12]], status=decideTestsDGE(lrtres[[12]]), values=c(1,-1), col=c(
 plotMD(lrtres[[13]], status=decideTestsDGE(lrtres[[13]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[13])
 plotMD(lrtres[[14]], status=decideTestsDGE(lrtres[[14]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[14])
 plotMD(lrtres[[15]], status=decideTestsDGE(lrtres[[15]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[15])
-plotMD(lrtres[[16]], status=decideTestsDGE(lrtres[[16]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[16])
-plotMD(lrtres[[17]], status=decideTestsDGE(lrtres[[17]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[17])
-plotMD(lrtres[[18]], status=decideTestsDGE(lrtres[[18]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[18])
-plotMD(lrtres[[19]], status=decideTestsDGE(lrtres[[19]]), values=c(1,-1), col=c("red","blue"), legend="topright", main= colnames(cmat)[19])
 
 
 

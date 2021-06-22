@@ -1,0 +1,5 @@
+model_coefficients	EvsM	EEvsMM	allEvsM	E.MvsEE.MM	E.MMvsM.EE	EvsEE	MvsMM
+groupE	1	0	1	1	1	1	0
+groupEE	0	1	1	-1	-1	-1	0
+groupM	-1	0	-1	1	-1	0	1
+groupMM	0	-1	-1	-1	1	0	-1
