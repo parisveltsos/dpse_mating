@@ -19,26 +19,28 @@ str(frtdata)
 
 outpath <- '/Users/pveltsos/Library/Mobile Documents/com~apple~CloudDocs/MyDocuments/Work/Projects/gitOut/dpseMating/scatterplot'
 
-pdf(file.path(outpath,"virginMatedPlot.pdf"), width=12, height=6)
-par(mfrow=c(1,2)) 
+pdf(file.path(outpath,"virginMatedFRTPlot.pdf"), width=6, height=6)
 par(mar=c(5,5,4,3))
 plot(frtdata$logFC.MvsMM*(-1), frtdata$logFC.EvsEE*(-1), xlab="logFC M vs MM", ylab="logFC E vs EE", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
-points(frtdata$logFC.MvsMM[frtdata$FDR.E.MvsEE.MM<0.05]*(-1), frtdata$logFC.EvsEE[frtdata$FDR.E.MvsEE.MM<0.05]*(-1), pch=3, col=cbblue)
+points(frtdata$logFC.MvsMM[frtdata$FDR.E.MvsEE.MM<0.05]*(-1), frtdata$logFC.EvsEE[frtdata$FDR.E.MvsEE.MM<0.05]*(-1), pch=2, col=cbblue)
 # points(frtdata$logFC.MvsMM[frtdata$FDR.allEvsM<0.05 & frtdata$logFC.allEvsM>0]*(-1), frtdata$logFC.EvsEE[frtdata$FDR.allEvsM<0.05 & frtdata$logFC.allEvsM>0]*(-1), pch=4, col=cbred)
 # points(frtdata$logFC.MvsMM[frtdata$FDR.allEvsM<0.05 & frtdata$logFC.allEvsM<0]*(-1), frtdata$logFC.EvsEE[frtdata$FDR.allEvsM<0.05 & frtdata$logFC.allEvsM<0]*(-1), pch=3, col=cborange)
-points(frtdata$logFC.MvsMM[frtdata$FDR.E.MMvsM.EE<0.05]*(-1), frtdata$logFC.EvsEE[frtdata$FDR.E.MMvsM.EE<0.05]*(-1), pch=1, col=cbgreen)
+points(frtdata$logFC.MvsMM[frtdata$FDR.E.MMvsM.EE<0.05]*(-1), frtdata$logFC.EvsEE[frtdata$FDR.E.MMvsM.EE<0.05]*(-1), pch=4, col=cbgreen)
 abline(v=0, lty=2, lw=1, col=1)
 abline(h=0, lty=2, lw=1, col=1)
 
-legend("topleft", inset=0.05, legend=c("Virgin vs mated (362)", "Interaction (169)"), col =c(cbblue,cbgreen), pch=c(3,1), cex=.8 ) 
+legend("topleft", inset=0.05, legend=c("Virgin vs mated (362)", "Interaction (169)"), col =c(cbblue,cbgreen), pch=c(2,4), cex=.8 ) 
+dev.off()
 
+
+pdf(file.path(outpath,"virginMatedOVPlot.pdf"), width=6, height=6)
 par(mar=c(5,5,4,3))
 
 plot(ovdata$logFC.allEvsM, ovdata$logFC.E.MvsEE.MM, xlab="logFC E vs M", ylab="logFC virgin vs mated", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
-points(ovdata$logFC.allEvsM[ovdata$FDR.allEvsM<0.05], ovdata$logFC.E.MvsEE.MM[ovdata$FDR.allEvsM<0.05],  pch=4, col=cborange)
-points(ovdata$logFC.allEvsM[ovdata$FDR.E.MvsEE.MM<0.05], ovdata$logFC.E.MvsEE.MM[ovdata$FDR.E.MvsEE.MM<0.05],  pch=3, col=cbblue)
+points(ovdata$logFC.allEvsM[ovdata$FDR.allEvsM<0.05], ovdata$logFC.E.MvsEE.MM[ovdata$FDR.allEvsM<0.05],  pch=2, col=cbblue)
+points(ovdata$logFC.allEvsM[ovdata$FDR.E.MvsEE.MM<0.05], ovdata$logFC.E.MvsEE.MM[ovdata$FDR.E.MvsEE.MM<0.05],  pch=5, col=cborange)
 # points(ovdata$logFC.EvsM[ovdata$FDR.E.MMvsM.EE<0.05], ovdata$logFC.E.MvsEE.MM[ovdata$FDR.E.MMvsM.EE<0.05],  pch=4, col=cbgreen)
-legend("topleft", inset=0.05, legend=c("Virgin vs mated (44)", "E vs M (570)"), col =c(cbblue, cborange), pch=c(3,4), cex=.8 ) 
+legend("topleft", inset=0.05, legend=c("Virgin vs mated (44)", "E vs M (570)"), col =c(cbblue, cborange), pch=c(2,5), cex=.8 ) 
 # plot(ovdata$logFC.MvsMM*(-1), ovdata$logFC.EvsEE*(-1), xlab="logFC M vs MM", ylab="logFC E vs EE", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
 # points(ovdata$logFC.MvsMM[ovdata$FDR.E.MvsEE.MM<0.05]*(-1), ovdata$logFC.EvsEE[ovdata$FDR.E.MvsEE.MM<0.05]*(-1), pch=20, col=cbblue)
 # points(ovdata$logFC.MvsMM[ovdata$FDR.EvsM<0.05]*(-1), ovdata$logFC.EvsEE[ovdata$FDR.EvsM<0.05]*(-1), pch=4, col=cbred)
