@@ -16,7 +16,7 @@ agcpsdata <- merge(mergedA, orthodata, by.x="id", by.y="id", all=T )
 # findlaydata <- read.table('~/git/dpse_mating/input/agcp/not used/findlay.txt', header=T) # Findlay 2014 https://doi.org/10.1371/journal.pgen.1004108
 # str(findlaydata)
 
-agdata <- read.table('~/git/dpse_mating/output/dedata/agland/LogCPM_0.05_agland.txt', header=T) # data from DE analysis
+agdata <- read.table('/Users/pveltsos/Library/Mobile Documents/com~apple~CloudDocs/MyDocuments/Work/Projects/gitOut/dpseMating/dedata/agland/LogCPM_0.05_agland.txt', header=T) # data from DE analysis
 str(agdata)
 
 # merged2 <- merge(agdata, findlaydata, by.x="gene", by.y="id", all=F ) # could be used to compare to Findlay 2014 genes
@@ -29,6 +29,22 @@ merged1$defdr2 <- merged1$FDR.maleVirgins_E.M < 0.05 & merged1$logFC.maleVirgins
 
 deonly <- subset(merged1, merged1$FDR.maleVirgins_E.M < 0.05 & merged1$all=="all") 
 summary(deonly)
+
+
+par(mfrow=c(1,2)) 
+par(mar=c(5,5,4,3), oma=c(0,0,2,0))
+boxplot(merged1$logFC.maleVirgins_E.M, agdata$logFC.maleVirgins_E.M, merged1$logFC.maleVirgins_E.M[merged1$agcpS=="agcpS"], merged1$logFC.maleVirgins_E.M[merged1$ortho=="ortho"], names=list('All RNAseq', 'All proteome', 'Secretome', 'SFP'), col=c(2,'gray50',3,4), ylab='logFC', cex.lab=1.3)
+
+
+boxplot(merged1$logFC.maleVirgins_E.M[merged1$FDR.maleVirgins_E.M<0.05 & merged1$logFC.maleVirgins_E.M>0],
+		abs(merged1$logFC.maleVirgins_E.M[merged1$FDR.maleVirgins_E.M<0.05 & merged1$logFC.maleVirgins_E.M<0]),
+		agdata$logFC.maleVirgins_E.M[agdata$FDR.maleVirgins_E.M<0.05 & agdata$logFC.maleVirgins_E.M>0],
+		abs(agdata$logFC.maleVirgins_E.M[agdata$FDR.maleVirgins_E.M<0.05 & agdata$logFC.maleVirgins_E.M<0]),
+		names=list('All RNAseq E biased', 'All RNAseq M biased', 'Secretome E', 'Secretome M'), col=c(2,'gray50',3,4), ylab='logFC', cex.lab=1.3)
+
+
+lines(density(merged1$logFC.maleVirgins_E.M[merged1$FDR.maleVirgins_E.M<0.05]), col=1, lw=2)
+lines(density(agdata$logFC.maleVirgins_E.M[agdata$FDR.maleVirgins_E.M<0.05]), col=2, lw=2)
 
 
 pdf(file.path(outpath,paste('agcpPlot.pdf', sep="")), width=12, height=6) # Fig 2
