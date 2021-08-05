@@ -27,24 +27,65 @@ merged1$de <- merged1$FDR.maleVirgins_E.M < 0.05
 merged1$defdr1 <- merged1$FDR.maleVirgins_E.M < 0.05 & merged1$logFC.maleVirgins_E.M > 1
 merged1$defdr2 <- merged1$FDR.maleVirgins_E.M < 0.05 & merged1$logFC.maleVirgins_E.M > 2
 
+merged1$box <- 'NA'
+merged1$box[merged1]
+
 deonly <- subset(merged1, merged1$FDR.maleVirgins_E.M < 0.05 & merged1$all=="all") 
 summary(deonly)
 
 
 par(mfrow=c(1,2)) 
 par(mar=c(5,5,4,3), oma=c(0,0,2,0))
-boxplot(merged1$logFC.maleVirgins_E.M, agdata$logFC.maleVirgins_E.M, merged1$logFC.maleVirgins_E.M[merged1$agcpS=="agcpS"], merged1$logFC.maleVirgins_E.M[merged1$ortho=="ortho"], names=list('All RNAseq', 'All proteome', 'Secretome', 'SFP'), col=c(2,'gray50',3,4), ylab='logFC', cex.lab=1.3)
+# boxplot(agdata$logFC.maleVirgins_E.M, merged1$logFC.maleVirgins_E.M[merged1$all=="all"], merged1$logFC.maleVirgins_E.M[merged1$agcpS=="agcpS"], merged1$logFC.maleVirgins_E.M[merged1$ortho=="ortho"], names=list('All RNAseq', 'All proteome', 'Secretome', 'SFP'), col=c(2,'gray50',3,4), ylab='logFC', cex.lab=1.3)
 
 
-boxplot(merged1$logFC.maleVirgins_E.M[merged1$FDR.maleVirgins_E.M<0.05 & merged1$logFC.maleVirgins_E.M>0],
-		abs(merged1$logFC.maleVirgins_E.M[merged1$FDR.maleVirgins_E.M<0.05 & merged1$logFC.maleVirgins_E.M<0]),
-		agdata$logFC.maleVirgins_E.M[agdata$FDR.maleVirgins_E.M<0.05 & agdata$logFC.maleVirgins_E.M>0],
-		abs(agdata$logFC.maleVirgins_E.M[agdata$FDR.maleVirgins_E.M<0.05 & agdata$logFC.maleVirgins_E.M<0]),
-		names=list('All RNAseq E biased', 'All RNAseq M biased', 'Secretome E', 'Secretome M'), col=c(2,'gray50',3,4), ylab='logFC', cex.lab=1.3)
+agdataSig <- subset(agdata, agdata$FDR.maleVirgins_E.M < 0.05)
+agdataSig$box <- agdataSig$logFC.maleVirgins_E.M > 0
+
+agdataSig$box <- factor(agdataSig$box)
+mylevels <- levels(agdataSig$box)
+levelProportions <- summary(agdataSig$box)/nrow(agdataSig)
 
 
-lines(density(merged1$logFC.maleVirgins_E.M[merged1$FDR.maleVirgins_E.M<0.05]), col=1, lw=2)
-lines(density(agdata$logFC.maleVirgins_E.M[agdata$FDR.maleVirgins_E.M<0.05]), col=2, lw=2)
+boxplot(abs(agdataSig$logFC.maleVirgins_E.M[agdataSig$FDR.maleVirgins_E.M<0.05 & agdataSig$logFC.maleVirgins_E.M<0]),
+		agdataSig$logFC.maleVirgins_E.M[agdataSig$FDR.maleVirgins_E.M<0.05 & agdataSig$logFC.maleVirgins_E.M>0],
+		NULL, NULL, 
+		names=list('All RNAseq M-up', 'All RNAseq E-up', 'Proteome M-up', 'Proteome E-up'), col=c('gray30','gray60','red','pink'), ylab='abs(logFC)', cex.lab=1.3)
+		
+
+
+for(i in 1:length(mylevels)){
+  thislevel <- mylevels[i]
+  thisvalues <- abs(agdataSig[agdataSig$box==thislevel, "logFC.maleVirgins_E.M"])
+   
+  # take the x-axis indices and add a jitter, proportional to the N in each level
+#  myjitter <- jitter(rep(i, length(thisvalues)), amount=levelProportions[i]/2)
+  myjitter <- jitter(rep(i, length(thisvalues)), amount=.25)
+  points(myjitter, thisvalues, pch=20, cex=0.6, col=rgb(0,0,0,.8))    
+}
+
+m1Sig <- subset(merged1, merged1$FDR.maleVirgins_E.M < 0.05 & merged1$all=="all")
+m1Sig$box <- m1Sig$logFC.maleVirgins_E.M > 0
+
+
+boxplot(NULL, NULL,
+		abs(m1Sig$logFC.maleVirgins_E.M[m1Sig$FDR.maleVirgins_E.M<0.05 & m1Sig$logFC.maleVirgins_E.M<0 & m1Sig$all=="all"]), add=T, xlab='null',
+		m1Sig$logFC.maleVirgins_E.M[m1Sig$FDR.maleVirgins_E.M<0.05 & m1Sig$logFC.maleVirgins_E.M>0 & m1Sig$all=="all"], col=c('gray30','gray60','red','pink'))
+
+m1Sig$box <- factor(m1Sig$box)
+mylevels <- levels(m1Sig$box)
+levelProportions <- summary(m1Sig$box)/nrow(m1Sig)
+
+for(i in 1:length(mylevels)){
+  thislevel <- mylevels[i]
+  thisvalues <- abs(m1Sig[m1Sig$box==thislevel, "logFC.maleVirgins_E.M"])
+   
+  # take the x-axis indices and add a jitter, proportional to the N in each level
+#  myjitter <- jitter(rep(i, length(thisvalues)), amount=levelProportions[i]/2)
+  myjitter <- jitter(rep(i+2, length(thisvalues)), amount=.25)
+  points(myjitter, thisvalues, pch=20, cex=0.6, col=rgb(0,0,0,.8))    
+}
+
 
 
 pdf(file.path(outpath,paste('agcpPlot.pdf', sep="")), width=12, height=6) # Fig 2
@@ -54,8 +95,8 @@ lines(density(merged1$logFC.maleVirgins_E.M), col=2, lw=2)
 lines(density(agdata$logFC.maleVirgins_E.M), col=1, lw=2)
 lines(density(merged1$logFC.maleVirgins_E.M[merged1$agcpS=="agcpS"], na.rm=T), col=3, lw=2)
 lines(density(merged1$logFC.maleVirgins_E.M[merged1$ortho=="ortho"], na.rm=T), col=4, lw=2)
-rug(agdata$logFC.maleVirgins_E.M, col=1, ticksize=0.01, line=2.5)
-rug(merged1$logFC.maleVirgins_E.M, col=2, ticksize=0.01, line=3.0)
+# rug(agdata$logFC.maleVirgins_E.M, col=1, ticksize=0.01, line=2.5)
+# rug(merged1$logFC.maleVirgins_E.M, col=2, ticksize=0.01, line=3.0)
 # legend('topleft', inset=0.05, legend=c('All genes', 'Findlay homologues (76/89/138)'), pch =c(19,19), col=c(1,2), cex=0.8 )
 # legend('topright', inset=0.05, legend=c('W=48552, p=0.19'),  cex=0.8 )
 legend('topleft', inset=0.05, legend=c('All RNAseq', 'All proteome', 'Secretome', 'SFP'), pch =c(19,19), col=c(1,2,3,4), cex=0.8 )
