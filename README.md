@@ -141,13 +141,23 @@ This analysis produces figure 2, comparing DE genes from this study with agcp ge
 
 Run `~/git/dpse_mating/scripts/agcpPlot.r` See script for origin of input files.
 
-## Ridge plots
+## Box plots
 
-The data in `input/ridgePlots` were made from the output of the DE analysis. For example the `input/ridgePlots/mating.txt` data whose second column reads `ov_E_mated` or `ov_E_virgin` show the logFC value of the DE genes in the ovary mated vs virgin contrast from file `~/git/dpse_mating/output/dedata/ovary_matingE_rmEEov4/de_0.05_0_ovary_matingE_rmEEov4.txt`.
+The data in `input/boxplots` were made from the output of the DE analysis. These were made manually by adding the second column to that indicates the contrast producing it (negative values are the M libraries) from the following files:
 
-Make the plots for Fig S1, Fig S2 and Fig S3, and the associated Wilcoxon tests (not reported) with 
+For `input/boxplots/female_virgin_boxplotData.txt` the logFC values are from 
 
-	source ~/git/dpse_mating/scripts/ridgeplots_wilcoxon_reproseq.r
+* `~/git/dpseMating/output/dedata/ovary_SSvirgins/de_0.05_0_ovary_SSvirgins.txt` 
+* `~/git/dpseMating/output/dedata/rtract_SSvirgins/de_0.05_0_rtract_SSvirgins.txt` 
 
-The plots were manipulated for presentation in Affinity Designer v1.8.6, mostly to change the location of the gene numbers and change the text of the y axis.
+For `input/boxplots/male_virgin_boxplotData.txt` the logFC values are from 
+
+* `~/git/dpseMating/output/dedata/testis/de_0.05_0_testis.txt` 
+* `~/git/dpseMating/output/dedata/agland/de_0.05_0_agland.txt` 
+
+Panels A and B for Fig 1 are made with
+
+	~/git/dpse_mating/scripts/
+
+The plots were manipulated for presentation in Affinity Designer v1.9.3, mostly to change the location of the gene numbers and change the text of the y axis.
 
