@@ -1,5 +1,5 @@
-model_coefficients	EEvsMM	EE.MEvsEM.MM	EE.MMvsEM.ME	EE.EMvsMM.ME	MMvsME	EEvsEM	MMvsEM	EEvsME
-groupEE	1	1	1	1	0	1	0	1
-groupEM	0	-1	-1	1	0	-1	-1	0
-groupME	0	1	-1	-1	1	0	0	-1
-groupMM	-1	-1	1	-1	-1	0	1	0
+model_coefficients	EEvsMM	EE.MEvsEM.MM	EE.MMvsEM.ME	EE.EMvsMM.ME	MMvsME	EEvsEM	MMvsEM	EEvsME	EMvsME
+groupEE	1	1	1	1	0	1	0	1	0
+groupEM	0	-1	-1	1	0	-1	-1	0	1
+groupME	0	1	-1	-1	1	0	0	-1	-1
+groupMM	-1	-1	1	-1	-1	0	1	0	0

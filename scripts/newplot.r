@@ -9,12 +9,12 @@ cbyellow <- "#F0E442"
 cbpurple <- "#8400CD" 
 cbred <- "#E20134" # not with brown, orange, yellow
 
-ovpath <- "~/Library/Mobile Documents/com~apple~CloudDocs/MyDocuments/Work/Projects/gitOut/dpseMating/dedata/ovary4"
-ovdata <- read.table(file.path(ovpath, "LogCPM_0.05_ovary4.txt"), header=T)
+ovpath <- "~/Library/Mobile Documents/com~apple~CloudDocs/MyDocuments/Work/Projects/gitOut/dpseMating/dedata/ovary"
+ovdata <- read.table(file.path(ovpath, "LogCPM_0.05_ovary.txt"), header=T)
 str(ovdata)
 
-frtpath <- "~/Library/Mobile Documents/com~apple~CloudDocs/MyDocuments/Work/Projects/gitOut/dpseMating/dedata/rtract4"
-frtdata <- read.table(file.path(frtpath, "LogCPM_0.05_rtract4.txt"), header=T)
+frtpath <- "~/Library/Mobile Documents/com~apple~CloudDocs/MyDocuments/Work/Projects/gitOut/dpseMating/dedata/rtract"
+frtdata <- read.table(file.path(frtpath, "LogCPM_0.05_rtract.txt"), header=T)
 str(frtdata)
 
 outpath <- '/Users/pveltsos/Library/Mobile Documents/com~apple~CloudDocs/MyDocuments/Work/Projects/gitOut/dpseMating/scatterplot'
@@ -295,3 +295,342 @@ for (i in 1:nrow(pat3)) {
 
 
 legend("topright", inset=0.05, legend=c("virgin > mated", "virgin < mated"), pch =c(19,19), col=c(2,4), cex=0.8 )
+
+
+
+
+
+
+
+pdf(file.path(outpath,"4libs_frt.pdf"), width=9, height=9)
+
+par(mfrow=c(2,2)) 
+
+par(mar=c(5,5,4,3))
+plot(frtdata$logFC.EEvsMM, frtdata$logFC.EEvsEM, xlab="logFC EE vs MM", ylab="logFC EE vs EM", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(frtdata$logFC.EEvsMM[frtdata$FDR.EEvsMM<0.05], frtdata$logFC.EEvsEM[frtdata$FDR.EEvsMM<0.05],  pch=4, col=cborange)
+points(frtdata$logFC.EEvsMM[frtdata$FDR.EEvsEM<0.05], frtdata$logFC.EEvsEM[frtdata$FDR.EEvsEM<0.05],  pch=3, col=cbblue)
+points(frtdata$logFC.EEvsMM[frtdata$FDR.MMvsEM<0.05], frtdata$logFC.EEvsEM[frtdata$FDR.MMvsEM<0.05],  pch=2, col=cbred)
+points(frtdata$logFC.EEvsMM[frtdata$FDR.MMvsME<0.05], frtdata$logFC.EEvsEM[frtdata$FDR.MMvsME<0.05],  pch=6, col=cbpurple)
+abline(v=0, lty=2, lw=1, col=1)
+abline(h=0, lty=2, lw=1, col=1)
+legend("topleft", inset=0.05, legend=c("EE vs MM (113)", "EE vs EM (0)"), col =c(cborange,cbblue), pch=c(4,3), cex=.8 ) 
+
+par(mar=c(5,5,4,3))
+plot(frtdata$logFC.EEvsMM, frtdata$logFC.MMvsME, xlab="logFC EE vs MM", ylab="logFC MM vs ME", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(frtdata$logFC.EEvsMM[frtdata$FDR.EEvsMM<0.05], frtdata$logFC.MMvsME[frtdata$FDR.EEvsMM<0.05],  pch=4, col=cborange)
+points(frtdata$logFC.EEvsMM[frtdata$FDR.MMvsME<0.05], frtdata$logFC.MMvsME[frtdata$FDR.MMvsME<0.05],  pch=3, col=cbblue)
+points(frtdata$logFC.EEvsMM[frtdata$FDR.MMvsEM<0.05], frtdata$logFC.MMvsME[frtdata$FDR.MMvsEM<0.05],  pch=2, col=cbred)
+abline(v=0, lty=2, lw=1, col=1)
+abline(h=0, lty=2, lw=1, col=1)
+legend("topleft", inset=0.05, legend=c("EE vs MM (113)", "MM vs ME (0)"), col =c(cborange,cbblue), pch=c(4,3), cex=.8 ) 
+
+par(mar=c(5,5,4,3))
+plot(frtdata$logFC.EEvsMM, frtdata$logFC.EEvsME, xlab="logFC EE vs MM", ylab="logFC EE vs ME", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(frtdata$logFC.EEvsMM[frtdata$FDR.EEvsMM<0.05], frtdata$logFC.EEvsME[frtdata$FDR.EEvsMM<0.05],  pch=4, col=cborange)
+points(frtdata$logFC.EEvsMM[frtdata$FDR.EEvsME<0.05], frtdata$logFC.EEvsME[frtdata$FDR.EEvsME<0.05],  pch=3, col=cbblue)
+abline(v=0, lty=2, lw=1, col=1)
+abline(h=0, lty=2, lw=1, col=1)
+legend("bottomright", inset=0.05, legend=c("EE vs MM (113)", "EE vs ME (43)"), col =c(cborange,cbblue), pch=c(4,3), cex=.8 ) 
+
+
+par(mar=c(5,5,4,3))
+plot(frtdata$logFC.EEvsMM, frtdata$logFC.MMvsEM, xlab="logFC EE vs MM", ylab="logFC MM vs EM", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(frtdata$logFC.EEvsMM[frtdata$FDR.EEvsMM<0.05], frtdata$logFC.MMvsEM[frtdata$FDR.EEvsMM<0.05],  pch=4, col=cborange)
+points(frtdata$logFC.EEvsMM[frtdata$FDR.MMvsEM<0.05], frtdata$logFC.MMvsEM[frtdata$FDR.MMvsEM<0.05],  pch=3, col=cbblue)
+abline(v=0, lty=2, lw=1, col=1)
+abline(h=0, lty=2, lw=1, col=1)
+legend("topright", inset=0.05, legend=c("EE vs MM (113)", "MM vs EM (289)"), col =c(cborange,cbblue), pch=c(4,3), cex=.8 ) 
+
+dev.off()
+
+
+
+pdf(file.path(outpath,"4libs_ov.pdf"), width=9, height=9)
+
+par(mfrow=c(2,2)) 
+
+par(mar=c(5,5,4,3))
+plot(ovdata$logFC.EEvsMM, ovdata$logFC.EEvsEM, xlab="logFC EE vs MM", ylab="logFC EE vs EM", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(ovdata$logFC.EEvsMM[ovdata$FDR.EEvsMM<0.05], ovdata$logFC.EEvsEM[ovdata$FDR.EEvsMM<0.05],  pch=4, col=cborange)
+points(ovdata$logFC.EEvsMM[ovdata$FDR.EEvsEM<0.05], ovdata$logFC.EEvsEM[ovdata$FDR.EEvsEM<0.05],  pch=3, col=cbblue)
+abline(v=0, lty=2, lw=1, col=1)
+abline(h=0, lty=2, lw=1, col=1)
+legend("bottomleft", inset=0.05, legend=c("EE vs MM (231)", "EE vs EM (27)"), col =c(cborange,cbblue), pch=c(4,3), cex=.8 ) 
+
+par(mar=c(5,5,4,3))
+plot(ovdata$logFC.EEvsMM, ovdata$logFC.MMvsME, xlab="logFC EE vs MM", ylab="logFC MM vs ME", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(ovdata$logFC.EEvsMM[ovdata$FDR.EEvsMM<0.05], ovdata$logFC.MMvsME[ovdata$FDR.EEvsMM<0.05],  pch=4, col=cborange)
+points(ovdata$logFC.EEvsMM[ovdata$FDR.MMvsME<0.05], ovdata$logFC.MMvsME[ovdata$FDR.MMvsME<0.05],  pch=3, col=cbblue)
+abline(v=0, lty=2, lw=1, col=1)
+abline(h=0, lty=2, lw=1, col=1)
+legend("topleft", inset=0.05, legend=c("EE vs MM (231)", "MM vs ME (0)"), col =c(cborange,cbblue), pch=c(4,3), cex=.8 ) 
+
+par(mar=c(5,5,4,3))
+plot(ovdata$logFC.EEvsMM, ovdata$logFC.EEvsME, xlab="logFC EE vs MM", ylab="logFC EE vs ME", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(ovdata$logFC.EEvsMM[ovdata$FDR.EEvsMM<0.05], ovdata$logFC.EEvsME[ovdata$FDR.EEvsMM<0.05],  pch=4, col=cborange)
+points(ovdata$logFC.EEvsMM[ovdata$FDR.EEvsME<0.05], ovdata$logFC.EEvsME[ovdata$FDR.EEvsME<0.05],  pch=3, col=cbblue)
+abline(v=0, lty=2, lw=1, col=1)
+abline(h=0, lty=2, lw=1, col=1)
+legend("topleft", inset=0.05, legend=c("EE vs MM (231)", "EE vs ME (391)"), col =c(cborange,cbblue), pch=c(4,3), cex=.8 ) 
+
+
+par(mar=c(5,5,4,3))
+plot(ovdata$logFC.EEvsMM, ovdata$logFC.MMvsEM, xlab="logFC EE vs MM", ylab="logFC MM vs EM", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(ovdata$logFC.EEvsMM[ovdata$FDR.EEvsMM<0.05], ovdata$logFC.MMvsEM[ovdata$FDR.EEvsMM<0.05],  pch=4, col=cborange)
+points(ovdata$logFC.EEvsMM[ovdata$FDR.MMvsEM<0.05], ovdata$logFC.MMvsEM[ovdata$FDR.MMvsEM<0.05],  pch=3, col=cbblue)
+abline(v=0, lty=2, lw=1, col=1)
+abline(h=0, lty=2, lw=1, col=1)
+legend("topright", inset=0.05, legend=c("EE vs MM (231)", "MM vs EM (144)"), col =c(cborange,cbblue), pch=c(4,3), cex=.8 ) 
+
+dev.off()
+
+
+
+
+pdf(file.path(outpath,"6libs_frt.pdf"), width=9, height=9)
+
+par(mfrow=c(2,2)) 
+
+par(mar=c(5,5,4,3))
+plot(frtdata$logFC.EvsEE, frtdata$logFC.EvsEM, xlab="logFC E vs EE", ylab="logFC E vs EM", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(frtdata$logFC.EvsEE[frtdata$FDR.EvsEE<0.05], frtdata$logFC.EvsEM[frtdata$FDR.EvsEE<0.05],  pch=4, col=cborange)
+points(frtdata$logFC.EvsEE[frtdata$FDR.EvsEM<0.05], frtdata$logFC.EvsEM[frtdata$FDR.EvsEM<0.05],  pch=3, col=cbblue)
+abline(v=0, lty=2, lw=1, col=1)
+abline(h=0, lty=2, lw=1, col=1)
+legend("topleft", inset=0.05, legend=c("E vs EE (200)", "E vs EM (90)"), col =c(cborange,cbblue), pch=c(4,3), cex=.8 ) 
+
+
+par(mar=c(5,5,4,3))
+plot(frtdata$logFC.MvsMM, frtdata$logFC.MvsME, xlab="logFC M vs MM", ylab="logFC M vs ME", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(frtdata$logFC.MvsMM[frtdata$FDR.MvsME<0.05], frtdata$logFC.MvsME[frtdata$FDR.MvsME<0.05],  pch=3, col=cbblue)
+points(frtdata$logFC.MvsMM[frtdata$FDR.MvsMM<0.05], frtdata$logFC.MvsME[frtdata$FDR.MvsMM<0.05],  pch=4, col=cborange)
+abline(v=0, lty=2, lw=1, col=1)
+abline(h=0, lty=2, lw=1, col=1)
+legend("bottomright", inset=0.05, legend=c("M vs MM (163)", "M vs ME (363)"), col =c(cborange,cbblue), pch=c(4,3), cex=.8 ) 
+
+
+par(mar=c(5,5,4,3))
+plot(frtdata$logFC.EvsEE, frtdata$logFC.EvsME, xlab="logFC E vs EE", ylab="logFC E vs ME", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(frtdata$logFC.EvsEE[frtdata$FDR.EvsEE<0.05], frtdata$logFC.EvsME[frtdata$FDR.EvsEE<0.05],  pch=4, col=cborange)
+points(frtdata$logFC.EvsEE[frtdata$FDR.EvsME<0.05], frtdata$logFC.EvsME[frtdata$FDR.EvsME<0.05],  pch=3, col=cbblue)
+abline(v=0, lty=2, lw=1, col=1)
+abline(h=0, lty=2, lw=1, col=1)
+legend("topleft", inset=0.05, legend=c("E vs EE (200)", "E vs ME (152)"), col =c(cborange,cbblue), pch=c(4,3), cex=.8 ) 
+
+par(mar=c(5,5,4,3))
+plot(frtdata$logFC.MvsMM, frtdata$logFC.MvsEM, xlab="logFC M vs MM", ylab="logFC M vs EM", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(frtdata$logFC.MvsMM[frtdata$FDR.MvsEM<0.05], frtdata$logFC.MvsEM[frtdata$FDR.MvsEM<0.05],  pch=3, col=cbblue)
+points(frtdata$logFC.MvsMM[frtdata$FDR.MvsMM<0.05], frtdata$logFC.MvsEM[frtdata$FDR.MvsMM<0.05],  pch=4, col=cborange)
+abline(v=0, lty=2, lw=1, col=1)
+abline(h=0, lty=2, lw=1, col=1)
+legend("bottomright", inset=0.05, legend=c("M vs MM (163)", "M vs ME (2387)"), col =c(cborange,cbblue), pch=c(4,3), cex=.8 ) 
+
+dev.off()
+
+
+
+
+
+
+pdf(file.path(outpath,"6libs_ov.pdf"), width=9, height=9)
+
+par(mfrow=c(2,2)) 
+
+par(mar=c(5,5,4,3))
+plot(ovdata$logFC.EvsEE, ovdata$logFC.EvsEM, xlab="logFC E vs EE", ylab="logFC E vs EM", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(ovdata$logFC.EvsEE[ovdata$FDR.EvsEE<0.05], ovdata$logFC.EvsEM[ovdata$FDR.EvsEE<0.05],  pch=4, col=cborange)
+points(ovdata$logFC.EvsEE[ovdata$FDR.EvsEM<0.05], ovdata$logFC.EvsEM[ovdata$FDR.EvsEM<0.05],  pch=3, col=cbblue)
+abline(v=0, lty=2, lw=1, col=1)
+abline(h=0, lty=2, lw=1, col=1)
+legend("topleft", inset=0.05, legend=c("E vs EE (6)", "E vs EM (0)"), col =c(cborange,cbblue), pch=c(4,3), cex=.8 ) 
+
+
+par(mar=c(5,5,4,3))
+plot(ovdata$logFC.MvsMM, ovdata$logFC.MvsME, xlab="logFC M vs MM", ylab="logFC M vs ME", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(ovdata$logFC.MvsMM[ovdata$FDR.MvsME<0.05], ovdata$logFC.MvsME[ovdata$FDR.MvsME<0.05],  pch=3, col=cbblue)
+points(ovdata$logFC.MvsMM[ovdata$FDR.MvsMM<0.05], ovdata$logFC.EvsME[ovdata$FDR.MvsMM<0.05],  pch=4, col=cborange)
+abline(v=0, lty=2, lw=1, col=1)
+abline(h=0, lty=2, lw=1, col=1)
+legend("bottomright", inset=0.05, legend=c("M vs MM (1)", "M vs ME (3)"), col =c(cborange,cbblue), pch=c(4,3), cex=.8 ) 
+
+
+par(mar=c(5,5,4,3))
+plot(ovdata$logFC.EvsEE, ovdata$logFC.EvsME, xlab="logFC E vs EE", ylab="logFC E vs ME", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(ovdata$logFC.EvsEE[ovdata$FDR.EvsEE<0.05], ovdata$logFC.EvsME[ovdata$FDR.EvsEE<0.05],  pch=4, col=cborange)
+points(ovdata$logFC.EvsEE[ovdata$FDR.EvsME<0.05], ovdata$logFC.EvsME[ovdata$FDR.EvsME<0.05],  pch=3, col=cbblue)
+abline(v=0, lty=2, lw=1, col=1)
+abline(h=0, lty=2, lw=1, col=1)
+legend("topleft", inset=0.05, legend=c("E vs EE (6)", "E vs ME (270)"), col =c(cborange,cbblue), pch=c(4,3), cex=.8 ) 
+
+par(mar=c(5,5,4,3))
+plot(ovdata$logFC.MvsMM, ovdata$logFC.MvsEM, xlab="logFC M vs MM", ylab="logFC M vs EM", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(ovdata$logFC.MvsMM[ovdata$FDR.MvsEM<0.05], ovdata$logFC.MvsEM[ovdata$FDR.MvsEM<0.05],  pch=3, col=cbblue)
+points(ovdata$logFC.MvsMM[ovdata$FDR.MvsMM<0.05], ovdata$logFC.MvsEM[ovdata$FDR.MvsMM<0.05],  pch=4, col=cborange)
+abline(v=0, lty=2, lw=1, col=1)
+abline(h=0, lty=2, lw=1, col=1)
+legend("bottomright", inset=0.05, legend=c("M vs MM (1)", "M vs ME (174)"), col =c(cborange,cbblue), pch=c(4,3), cex=.8 ) 
+
+dev.off()
+
+
+
+
+
+
+
+
+pdf(file.path(outpath,"sexEffects.pdf"), width=9, height=9)
+
+par(mfrow=c(2,2)) 
+
+par(mar=c(5,5,4,3))
+plot(frtdata$logFC.MMvsEM, frtdata$logFC.EEvsME, xlab="logFC MM vs EM", ylab="logFC EE vs ME", main="FRT", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(frtdata$logFC.MMvsEM[frtdata$FDR.MMvsEM<0.05], frtdata$logFC.EEvsME[frtdata$FDR.MMvsEM<0.05],  pch=4, col=cborange)
+points(frtdata$logFC.MMvsEM[frtdata$FDR.EEvsME<0.05], frtdata$logFC.EEvsME[frtdata$FDR.EEvsME<0.05],  pch=3, col=cbblue)
+points(frtdata$logFC.MMvsEM[frtdata$FDR.EEvsMM<0.05 & frtdata$logFC.EEvsMM>0], frtdata$logFC.EEvsME[frtdata$FDR.EEvsMM<0.05 & frtdata$logFC.EEvsMM>0],  pch=2, col=cbred)
+points(frtdata$logFC.MMvsEM[frtdata$FDR.EEvsMM<0.05 & frtdata$logFC.EEvsMM<0], frtdata$logFC.EEvsME[frtdata$FDR.EEvsMM<0.05 & frtdata$logFC.EEvsMM<0],  pch=6, col=cbpurple)
+abline(v=0, lty=2, lw=1, col=1)
+abline(h=0, lty=2, lw=1, col=1)
+legend("topright", inset=0.05, legend=c("MM vs EM (289)", "EE vs ME (43)", "EE up MM down (19)", "EE down MM up (94)"), col =c(cborange,cbblue,cbred,cbpurple), pch=c(4,3,2,6), cex=.7 ) 
+
+
+par(mar=c(5,5,4,3))
+plot(frtdata$logFC.MMvsME, frtdata$logFC.EEvsEM, xlab="logFC MM vs ME", ylab="logFC EE vs EM", main="FRT", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(frtdata$logFC.MMvsME[frtdata$FDR.MMvsME<0.05], frtdata$logFC.EEvsEM[frtdata$FDR.MMvsME<0.05],  pch=4, col=cborange)
+points(frtdata$logFC.MMvsME[frtdata$FDR.EEvsEM<0.05], frtdata$logFC.EEvsME[frtdata$FDR.EEvsEM<0.05],  pch=3, col=cbblue)
+points(frtdata$logFC.MMvsME[frtdata$FDR.EEvsMM<0.05 & frtdata$logFC.EEvsMM>0], frtdata$logFC.EEvsEM[frtdata$FDR.EEvsMM<0.05 & frtdata$logFC.EEvsMM>0],  pch=2, col=cbred)
+points(frtdata$logFC.MMvsME[frtdata$FDR.EEvsMM<0.05 & frtdata$logFC.EEvsMM<0], frtdata$logFC.EEvsEM[frtdata$FDR.EEvsMM<0.05 & frtdata$logFC.EEvsMM<0],  pch=6, col=cbpurple)
+abline(v=0, lty=2, lw=1, col=1)
+abline(h=0, lty=2, lw=1, col=1)
+legend("topleft", inset=0.05, legend=c("MM vs EM (0)", "EE vs ME (0)", "EE up MM down (19)", "EE down MM up (94)"), col =c(cborange,cbblue,cbred,cbpurple), pch=c(4,3,2,6), cex=.7 ) 
+
+
+
+plot(ovdata$logFC.MMvsEM, ovdata$logFC.EEvsME, xlab="logFC MM vs EM", ylab="logFC EE vs ME", main="ov", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(ovdata$logFC.MMvsEM[ovdata$FDR.MMvsEM<0.05], ovdata$logFC.EEvsME[ovdata$FDR.MMvsEM<0.05],  pch=4, col=cborange)
+points(ovdata$logFC.MMvsEM[ovdata$FDR.EEvsME<0.05], ovdata$logFC.EEvsME[ovdata$FDR.EEvsME<0.05],  pch=3, col=cbblue)
+points(ovdata$logFC.MMvsEM[ovdata$FDR.EEvsMM<0.05 & ovdata$logFC.EEvsMM>0], ovdata$logFC.EEvsME[ovdata$FDR.EEvsMM<0.05 & ovdata$logFC.EEvsMM>0],  pch=2, col=cbred)
+points(ovdata$logFC.MMvsEM[ovdata$FDR.EEvsMM<0.05 & ovdata$logFC.EEvsMM<0], ovdata$logFC.EEvsME[ovdata$FDR.EEvsMM<0.05 & ovdata$logFC.EEvsMM<0],  pch=6, col=cbpurple)
+abline(v=0, lty=2, lw=1, col=1)
+abline(h=0, lty=2, lw=1, col=1)
+legend("topright", inset=0.05, legend=c("MM vs EM (114)", "EE vs ME (391)", "EE up MM down (108)", "EE down MM up (123)"), col =c(cborange,cbblue,cbred,cbpurple), pch=c(4,3,2,6), cex=.7 ) 
+
+
+par(mar=c(5,5,4,3))
+plot(ovdata$logFC.MMvsME, ovdata$logFC.EEvsEM, xlab="logFC MM vs ME", ylab="logFC EE vs EM", main="ov", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(ovdata$logFC.MMvsME[ovdata$FDR.MMvsME<0.05], ovdata$logFC.EEvsEM[ovdata$FDR.MMvsME<0.05],  pch=4, col=cborange)
+points(ovdata$logFC.MMvsME[ovdata$FDR.EEvsEM<0.05], ovdata$logFC.EEvsME[ovdata$FDR.EEvsEM<0.05],  pch=3, col=cbblue)
+points(ovdata$logFC.MMvsME[ovdata$FDR.EEvsMM<0.05 & ovdata$logFC.EEvsMM>0], ovdata$logFC.EEvsEM[ovdata$FDR.EEvsMM<0.05 & ovdata$logFC.EEvsMM>0],  pch=2, col=cbred)
+points(ovdata$logFC.MMvsME[ovdata$FDR.EEvsMM<0.05 & ovdata$logFC.EEvsMM<0], ovdata$logFC.EEvsEM[ovdata$FDR.EEvsMM<0.05 & ovdata$logFC.EEvsMM<0],  pch=6, col=cbpurple)
+abline(v=0, lty=2, lw=1, col=1)
+abline(h=0, lty=2, lw=1, col=1)
+legend("bottomright", inset=0.05, legend=c("MM vs EM (0)", "EE vs ME (27)", "EE up MM down (108)", "EE down MM up (123)"), col =c(cborange,cbblue,cbred,cbpurple), pch=c(4,3,2,6), cex=.7 ) 
+
+dev.off()
+
+
+
+
+
+par(mar=c(5,5,4,3))
+plot(frtdata$logFC.EEvsMM, frtdata$logFC.EMvsME, xlab="logFC EE vs MM", ylab="logFC EM vs ME", main="frt", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(frtdata$logFC.EEvsMM[frtdata$FDR.EEvsMM<0.05], frtdata$logFC.EMvsME[frtdata$FDR.EEvsMM<0.05],  pch=3, col=cbblue)
+points(frtdata$logFC.EEvsMM[frtdata$FDR.MMvsEM<0.05], frtdata$logFC.EMvsME[frtdata$FDR.MMvsEM<0.05],  pch=2, col=cbred)
+points(frtdata$logFC.EEvsMM[frtdata$FDR.MMvsME<0.05], frtdata$logFC.EMvsME[frtdata$FDR.MMvsME<0.05],  pch=6, col=cbpurple)
+points(frtdata$logFC.EEvsMM[frtdata$FDR.EEvsEM<0.05], frtdata$logFC.EMvsME[frtdata$FDR.EEvsEM<0.05],  pch=4, col=cbred)
+points(frtdata$logFC.EEvsMM[frtdata$FDR.EEvsME<0.05], frtdata$logFC.EMvsME[frtdata$FDR.EEvsME<0.05],  pch=4, col=cbpurple)
+abline(v=0, lty=2, lw=1, col=1)
+abline(h=0, lty=2, lw=1, col=1)
+legend("topleft", inset=0.05, legend=c("EE vs MM (113)", "MM vs EM (288)", "MM vs ME (0)", "EE vs EM (0)", "EE vs ME (43)"), col =c(cbblue, cbred, cbpurple, cbred, cbpurple), pch=c(3,2,6,4,4), cex=.8 ) 
+
+
+
+
+par(mar=c(5,5,4,3))
+plot(ovdata$logFC.EEvsMM, ovdata$logFC.EMvsME, xlab="logFC EE vs MM", ylab="logFC EM vs ME", main="ovaries", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(ovdata$logFC.EEvsMM[ovdata$FDR.EEvsMM<0.05], ovdata$logFC.EMvsME[ovdata$FDR.EEvsMM<0.05],  pch=3, col=cbblue)
+points(ovdata$logFC.EEvsMM[ovdata$FDR.MMvsEM<0.05], ovdata$logFC.EMvsME[ovdata$FDR.MMvsEM<0.05],  pch=2, col=cbred)
+points(ovdata$logFC.EEvsMM[ovdata$FDR.MMvsME<0.05], ovdata$logFC.EMvsME[ovdata$FDR.MMvsME<0.05],  pch=6, col=cbpurple)
+points(ovdata$logFC.EEvsMM[ovdata$FDR.EEvsEM<0.05], ovdata$logFC.EMvsME[ovdata$FDR.EEvsEM<0.05],  pch=4, col=cbred)
+points(ovdata$logFC.EEvsMM[ovdata$FDR.EEvsME<0.05], ovdata$logFC.EMvsME[ovdata$FDR.EEvsME<0.05],  pch=4, col=cbpurple)
+abline(v=0, lty=2, lw=1, col=1)
+abline(h=0, lty=2, lw=1, col=1)
+legend("topleft", inset=0.05, legend=c("EE vs MM (238)", "MM vs EM (144)", "MM vs ME (0)", "EE vs EM (27)", "EE vs ME (391)"), col =c(cbblue, cbred, cbpurple, cbred, cbpurple), pch=c(3,2,6,4,4), cex=.8 ) 
+
+
+
+Mave <- frtdata$M_rt_1 + frtdata$M_rt_2 + frtdata$M_rt_3 + frtdata$M_rt_4
+Eave <- frtdata$E_rt_1 + frtdata$E_rt_2 + frtdata$E_rt_3 + frtdata$E_rt_4
+MEave <- frtdata$ME_rt_1 + frtdata$ME_rt_2 + frtdata$ME_rt_3 + frtdata$ME_rt_4
+EMave <- frtdata$EM_rt_1 + frtdata$EM_rt_2 + frtdata$EM_rt_3 + frtdata$EM_rt_4
+MMave <- frtdata$MM_rt_1 + frtdata$MM_rt_2 + frtdata$MM_rt_3 + frtdata$MM_rt_4
+EEave <- frtdata$EE_rt_1 + frtdata$EE_rt_2 + frtdata$EE_rt_3 + frtdata$EE_rt_4
+
+head(data.frame(frtdata[order(frtdata$FDR.MMvsEM, decreasing=F),]))
+
+sdata <- subset(frtdata, frtdata$gene==“FBgn0078687”)
+
+listGenes <- c("FBgn0078687", "FBgn0248682")
+
+listE <- list()
+listM <- list()
+listEE <- list()
+listMM <- list()
+
+for (i in listGenes) {
+listEE[[i]] <- EEave[frtdata$gene==i]
+listMM[[i]] <- MMave[frtdata$gene==i]
+listEM[[i]] <- EMave[frtdata$gene==i]
+listME[[i]] <- MEave[frtdata$gene==i]
+
+# listse[[i]] <- as.matrix(cbind(	c(Mave[frtdata$gene==i], MMave[frtdata$gene==i]), 
+	# 							c(Eave[frtdata$gene==i], EEave[frtdata$gene==i])))
+}
+
+
+gene <- "FBgn0248682" # EE vs ME
+gene <- "FBgn0250047" # MM vs EM
+gene <- "FBgn0250659" # only EE vs ME
+
+frtdata$FDR.EEvsME[frtdata$gene==gene]
+frtdata$FDR.MMvsEM[frtdata$gene==gene]
+
+tail(subset(frtdata, frtdata$FDR.EEvsME<0.05 & frtdata$FDR.MMvsEM>0.05))
+
+neo <- as.matrix(cbind(	c(MMave[frtdata$gene==gene], EEave[frtdata$gene==gene]), 
+					c(MEave[frtdata$gene==gene], EMave[frtdata$gene==gene])))
+								
+colnames(neo) <- c("Within line", "Between line")
+row.names(neo) <- c("M", "E")
+neo
+
+
+par(mfrow=c(2,2)) 
+
+plot( density(frtdata$logFC.EvsEE), col=cbred, main="E females")
+lines( density(frtdata$logFC.EvsEE), col=cbred, main="E females", lw=2)
+lines(density(frtdata$logFC.EvsEM), col=cbpink, lw=2)
+legend("topright", inset=0.05, legend=c("EvsEE", "EvsEM"), pch =c(19,19), col=c(cbred,cbpink) )
+abline(v=0, lty=2, lw=1, col=1)
+
+plot(density(frtdata$logFC.MvsMM), col=cbblue, main="M females")
+lines(density(frtdata$logFC.MvsMM), col=cbblue, main="M females", lw=2)
+lines(density(frtdata$logFC.MvsME), col=cbpurple, lw=2)
+legend("topright", inset=0.05, legend=c("MvsMM", "MvsME"), pch =c(19,19), col=c(cbblue,cbpurple) )
+abline(v=0, lty=2, lw=1, col=1)
+
+plot( density(frtdata$logFC.EvsEE[frtdata$FDR.EvsEE<0.05]), col=cbred, main="E females")
+lines( density(frtdata$logFC.EvsEE[frtdata$FDR.EvsEE<0.05]), col=cbred, main="E females", lw=2)
+lines(density(frtdata$logFC.EvsEM[frtdata$FDR.EvsEM<0.05]), col=cbpink, lw=2)
+legend("topright", inset=0.05, legend=c("EvsEE", "EvsEM"), pch =c(19,19), col=c(cbred,cbpink) )
+abline(v=0, lty=2, lw=1, col=1)
+
+plot(density(frtdata$logFC.MvsME[frtdata$FDR.MvsME<0.05]), col=cbpurple, main="M females")
+lines(density(frtdata$logFC.MvsME[frtdata$FDR.MvsME<0.05]), col=cbpurple, main="M females", lw=2)
+lines(density(frtdata$logFC.MvsMM[frtdata$FDR.MvsMM<0.05]), col=cbblue, main="M females", lw=2)
+legend("topright", inset=0.05, legend=c("MvsMM", "MvsME"), pch =c(19,19), col=c(cbblue,cbpurple) )
+abline(v=0, lty=2, lw=1, col=1)
+
+plot( density(frtdata$logFC.MvsMM), xlim=range( c(frtdata$logFC.MvsMM, frtdata$logFC.MvsME) ) )
+lines(density(frtdata$logFC.MvsME), col=2)
