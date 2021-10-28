@@ -26,7 +26,7 @@ sub_analyse = paste(args[1])
 FDR2use = as.numeric(paste(args[2]))
 
 # use these to run the script manually
- # sub_analyse <- 'ovary4b' # ovary rtract
+ # sub_analyse <- 'ovary' # ovary rtract
  # FDR2use <- 0.05
 
 datapath <- "~/git/dpse_mating/input/dedata/"

@@ -85,9 +85,9 @@ The input files have removed the rDNA genes, and library EEov4, which was an MDS
 
 Navigate to the folder of the relevant comparisons, and run the analysis. This needs to be done in the terminal for each contrast. eg for testis
 
-	cd ~/git/dpse_mating/output/testis/GO_0.05_maleVirgins_E.M
-
-	source ~/git/dpse_mating/scripts/GO_analysis_05.sh
+	cd ~/git/dpse_mating/output/testis
+	
+	for i in $(ls | grep GO); do cd $i; source ~/git/dpse_mating/scripts/GO_analysis_05.sh; cd ..; done
 
 The `Fisher.txt` files in the GO_0.05... and GO_DOWN and GO_UP folders make up the GO analysis results ("All DE" "Up" or "Down") summarized in File S1. These refer to the legend of each panel in Fig 3.
 

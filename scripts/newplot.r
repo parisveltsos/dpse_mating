@@ -29,8 +29,93 @@ points(frtdata$logFC.MvsMM[frtdata$FDR.E.MMvsM.EE<0.05]*(-1), frtdata$logFC.EvsE
 abline(v=0, lty=2, lw=1, col=1)
 abline(h=0, lty=2, lw=1, col=1)
 
-legend("topleft", inset=0.05, legend=c("Virgin vs mated (362)", "Interaction (169)"), col =c(cbblue,cbgreen), pch=c(2,4), cex=.8 ) 
+legend("topleft", inset=0.05, legend=c("Virgin vs mated (244)", "Interaction (146)"), col =c(cbblue,cbgreen), pch=c(2,4), cex=.8 ) 
 dev.off()
+
+
+pdf(file.path(outpath,"venn.pdf"), width=12, height=12)
+
+par(mfrow=c(2,2)) 
+par(mar=c(5,5,4,3))
+
+plot(frtdata$logFC.MvsMM*(-1), frtdata$logFC.MvsME*(-1), xlab="logFC M vs MM", ylab="logFC M vs ME", main="FRT M", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(frtdata$logFC.MvsMM[frtdata$FDR.MvsMM<0.05 & frtdata$FDR.MvsME>0.05]*(-1), frtdata$logFC.MvsME[frtdata$FDR.MvsMM<0.05 & frtdata$FDR.MvsME>0.05]*(-1), pch=3, col=cbblue)
+points(frtdata$logFC.MvsMM[frtdata$FDR.MvsME<0.05 & frtdata$FDR.MvsMM>0.05]*(-1), frtdata$logFC.MvsME[frtdata$FDR.MvsME<0.05 & frtdata$FDR.MvsMM>0.05]*(-1), pch=4, col=cbred)
+points(frtdata$logFC.MvsMM[frtdata$FDR.MvsME<0.05 & frtdata$FDR.MvsMM<0.05]*(-1), frtdata$logFC.MvsME[frtdata$FDR.MvsME<0.05 & frtdata$FDR.MvsMM<0.05]*(-1), pch=20, col=cbpurple)
+legend("topleft", inset=0.05, legend=c("Within line only", "Between line only", "Both"), pch =c(3,4,20), col=c(cbblue, cbred, cbpurple), cex=.8 )
+abline(v=0, lty=2, lw=1, col=1)
+abline(h=0, lty=2, lw=1, col=1)
+
+plot(frtdata$logFC.EvsEE*(-1), frtdata$logFC.EvsEM*(-1), xlab="logFC E vs EE", ylab="logFC E vs EM", main="FRT E", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(frtdata$logFC.EvsEE[frtdata$FDR.EvsEE<0.05 & frtdata$FDR.EvsEM>0.05]*(-1), frtdata$logFC.EvsEM[frtdata$FDR.EvsEE<0.05 & frtdata$FDR.EvsEM>0.05]*(-1), pch=3, col=cbblue)
+points(frtdata$logFC.EvsEE[frtdata$FDR.EvsEM<0.05 & frtdata$FDR.EvsEE>0.05]*(-1), frtdata$logFC.EvsEM[frtdata$FDR.EvsEM<0.05 & frtdata$FDR.EvsEE>0.05]*(-1), pch=4, col=cbred)
+points(frtdata$logFC.EvsEE[frtdata$FDR.EvsEM<0.05 & frtdata$FDR.EvsEE<0.05]*(-1), frtdata$logFC.EvsEM[frtdata$FDR.EvsEM<0.05 & frtdata$FDR.EvsEE<0.05]*(-1), pch=20, col=cbpurple)
+abline(v=0, lty=2, lw=1, col=1)
+abline(h=0, lty=2, lw=1, col=1)
+
+plot(ovdata$logFC.MvsMM*(-1), ovdata$logFC.MvsME*(-1), xlab="logFC M vs MM", ylab="logFC M vs ME", main="OV M", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(ovdata$logFC.MvsMM[ovdata$FDR.MvsMM<0.05 & ovdata$FDR.MvsME>0.05]*(-1), ovdata$logFC.MvsME[ovdata$FDR.MvsMM<0.05 & ovdata$FDR.MvsME>0.05]*(-1), pch=3, col=cbblue)
+points(ovdata$logFC.MvsMM[ovdata$FDR.MvsME<0.05 & ovdata$FDR.MvsMM>0.05]*(-1), ovdata$logFC.MvsME[ovdata$FDR.MvsME<0.05 & ovdata$FDR.MvsMM>0.05]*(-1), pch=4, col=cbred)
+points(ovdata$logFC.MvsMM[ovdata$FDR.MvsME<0.05 & ovdata$FDR.MvsMM<0.05]*(-1), ovdata$logFC.MvsME[ovdata$FDR.MvsME<0.05 & ovdata$FDR.MvsMM<0.05]*(-1), pch=20, col=cbpurple)
+legend("topleft", inset=0.05, legend=c("Within line only", "Between line only", "Both"), pch =c(3,4,20), col=c(cbblue, cbred, cbpurple), cex=.8 )
+abline(v=0, lty=2, lw=1, col=1)
+abline(h=0, lty=2, lw=1, col=1)
+
+plot(ovdata$logFC.EvsEE*(-1), ovdata$logFC.EvsEM*(-1), xlab="logFC E vs EE", ylab="logFC E vs EM", main="OV E", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(ovdata$logFC.EvsEE[ovdata$FDR.EvsEE<0.05 & ovdata$FDR.EvsEM>0.05]*(-1), ovdata$logFC.EvsEM[ovdata$FDR.EvsEE<0.05 & ovdata$FDR.EvsEM>0.05]*(-1), pch=3, col=cbblue)
+points(ovdata$logFC.EvsEE[ovdata$FDR.EvsEM<0.05 & ovdata$FDR.EvsEE>0.05]*(-1), ovdata$logFC.EvsEM[ovdata$FDR.EvsEM<0.05 & ovdata$FDR.EvsEE>0.05]*(-1), pch=4, col=cbred)
+points(ovdata$logFC.EvsEE[ovdata$FDR.EvsEM<0.05 & ovdata$FDR.EvsEE<0.05]*(-1), ovdata$logFC.EvsEM[ovdata$FDR.EvsEM<0.05 & ovdata$FDR.EvsEE<0.05]*(-1), pch=20, col=cbpurple)
+abline(v=0, lty=2, lw=1, col=1)
+abline(h=0, lty=2, lw=1, col=1)
+
+dev.off()
+
+
+outpath <- '/Users/pveltsos/Library/Mobile Documents/com~apple~CloudDocs/MyDocuments/Work/Projects/gitOut/dpseMating/venn'
+# generation of venn go data
+sub.frt.EvsEEonly <- subset(frtdata, frtdata$FDR.EvsEE<0.05 & frtdata$FDR.EvsEM>0.05)
+sub.frt.EvsEMonly <- subset(frtdata, frtdata$FDR.EvsEE>0.05 & frtdata$FDR.EvsEM<0.05)
+sub.frt.Eboth <- subset(frtdata, frtdata$FDR.EvsEE<0.05 & frtdata$FDR.EvsEM<0.05)
+
+frtsmall <- data.frame(frtdata$gene, frtdata$FDR.EvsEM, frtdata$logFC.EvsEM)
+colnames(frtsmall) <- c('gene', 'FDR', 'logFC')
+
+frt.EvsEEonly.up <- frtsmall
+frt.EvsEEonly.up$FDR[frtdata$FDR.EvsEE<0.05 & frtdata$FDR.EvsEM>0.05 & frtdata$logFC.EvsEE<0] <- 1
+summary(frt.EvsEEonly.up$FDR<0.05)
+frt.EvsEEonly.down <- frtsmall
+frt.EvsEEonly.down$FDR[frtdata$FDR.EvsEE<0.05 & frtdata$FDR.EvsEM>0.05 & frtdata$logFC.EvsEE>0] <- 1
+
+frt.EvsEMonly.up <- frtsmall
+frt.EvsEMonly.up$FDR[frtdata$FDR.EvsEE>0.05 & frtdata$FDR.EvsEM<0.05 & frtdata$logFC.EvsEM<0] <- 1
+frt.EvsEMonly.down <- frtsmall
+frt.EvsEMonly.down$FDR[ frtdata$FDR.EvsEM<0.05 & frtdata$logFC.EvsEM>0] <- 1
+
+frt.Eboth.up <- frtsmall
+frt.Eboth.up$FDR[frtdata$FDR.EvsEE<0.05 & frtdata$FDR.EvsEM<0.05 & frtdata$logFC.EvsEE<0 & frtdata$logFC.EvsEM<0] <- 1
+frt.Eboth.down <- frtsmall
+frt.Eboth.down$FDR[frtdata$FDR.EvsEE<0.05 & frtdata$FDR.EvsEM<0.05 & frtdata$logFC.EvsEE>0 & frtdata$logFC.EvsEM>0] <- 1
+
+dir.create(file.path(outpath, "frt.EvsEEonly.up"))
+frtdata$gene[frtdata$FDR.EvsEE<0.05 & frtdata$FDR.EvsEM>0.05 & frtdata$logFC.EvsEE > 0]
+dir.create(file.path(outpath, "frt.EvsEEonly.down"))
+dir.create(file.path(outpath, "frt.EvsEMonly.up"))
+dir.create(file.path(outpath, "frt.EvsEMonly.down"))
+dir.create(file.path(outpath, "frt.Eboth.up"))
+dir.create(file.path(outpath, "frt.Eboth.down"))
+
+write.table(frtdata$gene[frtdata$FDR.EvsEE<0.05 & frtdata$FDR.EvsEM>0.05 & frtdata$logFC.EvsEE > 0], file=file.path(outpath, "frt.EvsEEonly.up/EvsEEonly.up.txt"), quote=F, row.names=F, sep="\t")
+write.table(frt.EvsEEonly.down, file=file.path(outpath, "frt.EvsEEonly.down/GO_pvalues.txt"), quote=F, row.names=F, sep="\t")
+write.table(frt.EvsEMonly.up, file=file.path(outpath, "frt.EvsEMonly.up/GO_pvalues.txt"), quote=F, row.names=F, sep="\t")
+write.table(frt.EvsEMonly.down, file=file.path(outpath, "frt.EvsEMonly.down/GO_pvalues.txt"), quote=F, row.names=F, sep="\t")
+write.table(frt.Eboth.up, file=file.path(outpath, "frt.Eboth.up/GO_pvalues.txt"), quote=F, row.names=F, sep="\t")
+write.table(frt.Eboth.down, file=file.path(outpath, "frt.Eboth.down/GO_pvalues.txt"), quote=F, row.names=F, sep="\t")
+
+
+
+nrow(subset(frt.Eboth.up, frtsmall$FDR<0.05))
+
+
 
 
 pdf(file.path(outpath,"virginMatedOVPlot.pdf"), width=6, height=6)
@@ -40,7 +125,7 @@ plot(ovdata$logFC.allEvsM, ovdata$logFC.E.MvsEE.MM, xlab="logFC E vs M", ylab="l
 points(ovdata$logFC.allEvsM[ovdata$FDR.allEvsM<0.05], ovdata$logFC.E.MvsEE.MM[ovdata$FDR.allEvsM<0.05],  pch=2, col=cbblue)
 points(ovdata$logFC.allEvsM[ovdata$FDR.E.MvsEE.MM<0.05], ovdata$logFC.E.MvsEE.MM[ovdata$FDR.E.MvsEE.MM<0.05],  pch=5, col=cborange)
 # points(ovdata$logFC.EvsM[ovdata$FDR.E.MMvsM.EE<0.05], ovdata$logFC.E.MvsEE.MM[ovdata$FDR.E.MMvsM.EE<0.05],  pch=4, col=cbgreen)
-legend("topleft", inset=0.05, legend=c("Virgin vs mated (44)", "E vs M (570)"), col =c(cbblue, cborange), pch=c(2,5), cex=.8 ) 
+legend("topleft", inset=0.05, legend=c("Virgin vs mated (43)", "E vs M (604)"), col =c(cbblue, cborange), pch=c(2,5), cex=.8 ) 
 # plot(ovdata$logFC.MvsMM*(-1), ovdata$logFC.EvsEE*(-1), xlab="logFC M vs MM", ylab="logFC E vs EE", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
 # points(ovdata$logFC.MvsMM[ovdata$FDR.E.MvsEE.MM<0.05]*(-1), ovdata$logFC.EvsEE[ovdata$FDR.E.MvsEE.MM<0.05]*(-1), pch=20, col=cbblue)
 # points(ovdata$logFC.MvsMM[ovdata$FDR.EvsM<0.05]*(-1), ovdata$logFC.EvsEE[ovdata$FDR.EvsM<0.05]*(-1), pch=4, col=cbred)
@@ -631,6 +716,8 @@ lines(density(frtdata$logFC.MvsME[frtdata$FDR.MvsME<0.05]), col=cbpurple, main="
 lines(density(frtdata$logFC.MvsMM[frtdata$FDR.MvsMM<0.05]), col=cbblue, main="M females", lw=2)
 legend("topright", inset=0.05, legend=c("MvsMM", "MvsME"), pch =c(19,19), col=c(cbblue,cbpurple) )
 abline(v=0, lty=2, lw=1, col=1)
+
+
 
 plot( density(frtdata$logFC.MvsMM), xlim=range( c(frtdata$logFC.MvsMM, frtdata$logFC.MvsME) ) )
 lines(density(frtdata$logFC.MvsME), col=2)
