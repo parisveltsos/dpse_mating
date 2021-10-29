@@ -57,7 +57,6 @@ plot(ovdata$logFC.MvsMM*(-1), ovdata$logFC.MvsME*(-1), xlab="logFC M vs MM", yla
 points(ovdata$logFC.MvsMM[ovdata$FDR.MvsMM<0.05 & ovdata$FDR.MvsME>0.05]*(-1), ovdata$logFC.MvsME[ovdata$FDR.MvsMM<0.05 & ovdata$FDR.MvsME>0.05]*(-1), pch=3, col=cbblue)
 points(ovdata$logFC.MvsMM[ovdata$FDR.MvsME<0.05 & ovdata$FDR.MvsMM>0.05]*(-1), ovdata$logFC.MvsME[ovdata$FDR.MvsME<0.05 & ovdata$FDR.MvsMM>0.05]*(-1), pch=4, col=cbred)
 points(ovdata$logFC.MvsMM[ovdata$FDR.MvsME<0.05 & ovdata$FDR.MvsMM<0.05]*(-1), ovdata$logFC.MvsME[ovdata$FDR.MvsME<0.05 & ovdata$FDR.MvsMM<0.05]*(-1), pch=20, col=cbpurple)
-legend("topleft", inset=0.05, legend=c("Within line only", "Between line only", "Both"), pch =c(3,4,20), col=c(cbblue, cbred, cbpurple), cex=.8 )
 abline(v=0, lty=2, lw=1, col=1)
 abline(h=0, lty=2, lw=1, col=1)
 
@@ -71,49 +70,59 @@ abline(h=0, lty=2, lw=1, col=1)
 dev.off()
 
 
-outpath <- '/Users/pveltsos/Library/Mobile Documents/com~apple~CloudDocs/MyDocuments/Work/Projects/gitOut/dpseMating/venn'
 # generation of venn go data
-sub.frt.EvsEEonly <- subset(frtdata, frtdata$FDR.EvsEE<0.05 & frtdata$FDR.EvsEM>0.05)
-sub.frt.EvsEMonly <- subset(frtdata, frtdata$FDR.EvsEE>0.05 & frtdata$FDR.EvsEM<0.05)
-sub.frt.Eboth <- subset(frtdata, frtdata$FDR.EvsEE<0.05 & frtdata$FDR.EvsEM<0.05)
 
-frtsmall <- data.frame(frtdata$gene, frtdata$FDR.EvsEM, frtdata$logFC.EvsEM)
-colnames(frtsmall) <- c('gene', 'FDR', 'logFC')
+outpath <- '/Users/pveltsos/Library/Mobile Documents/com~apple~CloudDocs/MyDocuments/Work/Projects/gitOut/dpseMating/venn'
+dir.create(file.path(outpath, "frt.datagen"))
 
-frt.EvsEEonly.up <- frtsmall
-frt.EvsEEonly.up$FDR[frtdata$FDR.EvsEE<0.05 & frtdata$FDR.EvsEM>0.05 & frtdata$logFC.EvsEE<0] <- 1
-summary(frt.EvsEEonly.up$FDR<0.05)
-frt.EvsEEonly.down <- frtsmall
-frt.EvsEEonly.down$FDR[frtdata$FDR.EvsEE<0.05 & frtdata$FDR.EvsEM>0.05 & frtdata$logFC.EvsEE>0] <- 1
+MvsMMonly.down <- data.frame("gene"=frtdata$gene[frtdata$FDR.MvsMM < 0.05 & frtdata$FDR.MvsME > 0.05 & frtdata$logFC.MvsMM < 0])
+MvsMMonly.down$FDR.MvsMMonly.down <- 0.001
+MvsMMonly.up <- data.frame("gene"=frtdata$gene[frtdata$FDR.MvsMM < 0.05 & frtdata$FDR.MvsME > 0.05 & frtdata$logFC.MvsMM > 0])
+MvsMMonly.up$FDR.MvsMMonly.up <- 0.001
 
-frt.EvsEMonly.up <- frtsmall
-frt.EvsEMonly.up$FDR[frtdata$FDR.EvsEE>0.05 & frtdata$FDR.EvsEM<0.05 & frtdata$logFC.EvsEM<0] <- 1
-frt.EvsEMonly.down <- frtsmall
-frt.EvsEMonly.down$FDR[ frtdata$FDR.EvsEM<0.05 & frtdata$logFC.EvsEM>0] <- 1
+MvsMEonly.down <- data.frame("gene"=frtdata$gene[frtdata$FDR.MvsMM > 0.05 & frtdata$FDR.MvsME < 0.05 & frtdata$logFC.MvsMM < 0])
+MvsMEonly.down$FDR.MvsMEonly.down <- 0.001
+MvsMEonly.up <- data.frame("gene"=frtdata$gene[frtdata$FDR.MvsMM > 0.05 & frtdata$FDR.MvsME < 0.05 & frtdata$logFC.MvsMM > 0])
+MvsMEonly.up$FDR.MvsMEonly.up <- 0.001
 
-frt.Eboth.up <- frtsmall
-frt.Eboth.up$FDR[frtdata$FDR.EvsEE<0.05 & frtdata$FDR.EvsEM<0.05 & frtdata$logFC.EvsEE<0 & frtdata$logFC.EvsEM<0] <- 1
-frt.Eboth.down <- frtsmall
-frt.Eboth.down$FDR[frtdata$FDR.EvsEE<0.05 & frtdata$FDR.EvsEM<0.05 & frtdata$logFC.EvsEE>0 & frtdata$logFC.EvsEM>0] <- 1
+Mboth.down <- data.frame("gene"=frtdata$gene[frtdata$FDR.MvsMM < 0.05 & frtdata$FDR.MvsME < 0.05 & frtdata$logFC.MvsMM < 0])
+Mboth.down$FDR.Mboth.down <- 0.001
+Mboth.up <- data.frame("gene"=frtdata$gene[frtdata$FDR.MvsMM < 0.05 & frtdata$FDR.MvsME < 0.05 & frtdata$logFC.MvsMM > 0])
+Mboth.up$FDR.Mboth.up <- 0.001
 
-dir.create(file.path(outpath, "frt.EvsEEonly.up"))
-frtdata$gene[frtdata$FDR.EvsEE<0.05 & frtdata$FDR.EvsEM>0.05 & frtdata$logFC.EvsEE > 0]
-dir.create(file.path(outpath, "frt.EvsEEonly.down"))
-dir.create(file.path(outpath, "frt.EvsEMonly.up"))
-dir.create(file.path(outpath, "frt.EvsEMonly.down"))
-dir.create(file.path(outpath, "frt.Eboth.up"))
-dir.create(file.path(outpath, "frt.Eboth.down"))
+frtsmall <- data.frame("gene"=frtdata$gene, "FDR.MvsME"=frtdata$FDR.MvsME, "logFC.MvsME"=frtdata$logFC.MvsME, "FDR.MvsMM"=frtdata$FDR.MvsMM, "logFC.MvsMM"=frtdata$logFC.MvsMM)
 
-write.table(frtdata$gene[frtdata$FDR.EvsEE<0.05 & frtdata$FDR.EvsEM>0.05 & frtdata$logFC.EvsEE > 0], file=file.path(outpath, "frt.EvsEEonly.up/EvsEEonly.up.txt"), quote=F, row.names=F, sep="\t")
-write.table(frt.EvsEEonly.down, file=file.path(outpath, "frt.EvsEEonly.down/GO_pvalues.txt"), quote=F, row.names=F, sep="\t")
-write.table(frt.EvsEMonly.up, file=file.path(outpath, "frt.EvsEMonly.up/GO_pvalues.txt"), quote=F, row.names=F, sep="\t")
-write.table(frt.EvsEMonly.down, file=file.path(outpath, "frt.EvsEMonly.down/GO_pvalues.txt"), quote=F, row.names=F, sep="\t")
-write.table(frt.Eboth.up, file=file.path(outpath, "frt.Eboth.up/GO_pvalues.txt"), quote=F, row.names=F, sep="\t")
-write.table(frt.Eboth.down, file=file.path(outpath, "frt.Eboth.down/GO_pvalues.txt"), quote=F, row.names=F, sep="\t")
+merged1 <- merge(frtsmall, MvsMMonly.down,  by.x='gene', by.y='gene', all=T)
+merged2 <- merge(merged1, MvsMMonly.up,  by.x='gene', by.y='gene', all=T)
+merged3 <- merge(merged2, MvsMEonly.down,  by.x='gene', by.y='gene', all=T)
+merged4 <- merge(merged3, MvsMEonly.up,  by.x='gene', by.y='gene', all=T)
+merged5 <- merge(merged4, Mboth.up,  by.x='gene', by.y='gene', all=T)
+merged6 <- merge(merged5, Mboth.down,  by.x='gene', by.y='gene', all=T)
+
+merged6$FDR.MvsMMonly.down[is.na(merged6$FDR.MvsMMonly.down)] <- 1
+merged6$FDR.MvsMMonly.up[is.na(merged6$FDR.MvsMMonly.up)] <- 1
+merged6$FDR.MvsMEonly.down[is.na(merged6$FDR.MvsMEonly.down)] <- 1
+merged6$FDR.MvsMEonly.up[is.na(merged6$FDR.MvsMEonly.up)] <- 1
+merged6$FDR.Mboth.up[is.na(merged6$FDR.Mboth.up)] <- 1
+merged6$FDR.Mboth.down[is.na(merged6$FDR.Mboth.down)] <- 1
+
+dir.create(file.path(outpath, "frt.MvsMMonly.up"))
+dir.create(file.path(outpath, "frt.MvsMMonly.down"))
+dir.create(file.path(outpath, "frt.MvsMEonly.up"))
+dir.create(file.path(outpath, "frt.MvsMEonly.down"))
+dir.create(file.path(outpath, "frt.Mboth.up"))
+dir.create(file.path(outpath, "frt.Mboth.down"))
+
+
+write.table(data.frame(merged6$gene, merged6$FDR.MvsMMonly.down), file=file.path(outpath, "frt.MvsMMonly.down/GO_pvalues.txt"), quote=F, row.names=F, sep="\t")
+write.table(data.frame(merged6$gene, merged6$FDR.MvsMMonly.up), file=file.path(outpath, "frt.MvsMMonly.up/GO_pvalues.txt"), quote=F, row.names=F, sep="\t")
+write.table(data.frame(merged6$gene, merged6$FDR.MvsMEonly.down), file=file.path(outpath, "frt.MvsMEonly.down/GO_pvalues.txt"), quote=F, row.names=F, sep="\t")
+write.table(data.frame(merged6$gene, merged6$FDR.MvsMEonly.up), file=file.path(outpath, "frt.MvsMEonly.up/GO_pvalues.txt"), quote=F, row.names=F, sep="\t")
+write.table(data.frame(merged6$gene, merged6$FDR.Mboth.down), file=file.path(outpath, "frt.Mboth.down/GO_pvalues.txt"), quote=F, row.names=F, sep="\t")
+write.table(data.frame(merged6$gene, merged6$FDR.Mboth.up), file=file.path(outpath, "frt.Mboth.up/GO_pvalues.txt"), quote=F, row.names=F, sep="\t")
 
 
 
-nrow(subset(frt.Eboth.up, frtsmall$FDR<0.05))
 
 
 
