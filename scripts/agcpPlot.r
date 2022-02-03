@@ -40,17 +40,17 @@ par(mar=c(5,5,4,3), oma=c(0,0,2,0))
 
 
 agdataSig <- subset(agdata, agdata$FDR.maleVirgins_E.M < 0.05)
-agdataSig$box <- agdataSig$logFC.maleVirgins_E.M > 0
+agdataSig$box <- agdataSig$logFC.maleVirgins_E.M < 0
 
 agdataSig$box <- factor(agdataSig$box)
 mylevels <- levels(agdataSig$box)
 levelProportions <- summary(agdataSig$box)/nrow(agdataSig)
 
 
-boxplot(abs(agdataSig$logFC.maleVirgins_E.M[agdataSig$FDR.maleVirgins_E.M<0.05 & agdataSig$logFC.maleVirgins_E.M<0]),
-		agdataSig$logFC.maleVirgins_E.M[agdataSig$FDR.maleVirgins_E.M<0.05 & agdataSig$logFC.maleVirgins_E.M>0],
+boxplot(agdataSig$logFC.maleVirgins_E.M[agdataSig$FDR.maleVirgins_E.M<0.05 & agdataSig$logFC.maleVirgins_E.M>0],
+		abs(agdataSig$logFC.maleVirgins_E.M[agdataSig$FDR.maleVirgins_E.M<0.05 & agdataSig$logFC.maleVirgins_E.M<0]),
 		NULL, NULL, 
-		names=list('All RNAseq M-up', 'All RNAseq E-up', 'Proteome M-up', 'Proteome E-up'), col=c('gray30','gray60','red','pink'), ylab='abs(logFC)', cex.lab=1.3)
+		names=list('All RNAseq E-up', 'All RNAseq M-up', 'Proteome E-up', 'Proteome M-up'), col=c('gray60','gray30','pink','red'), ylab='abs(logFC)', cex.lab=1.3)
 		
 
 
@@ -65,12 +65,13 @@ for(i in 1:length(mylevels)){
 }
 
 m1Sig <- subset(merged1, merged1$FDR.maleVirgins_E.M < 0.05 & merged1$all=="all")
-m1Sig$box <- m1Sig$logFC.maleVirgins_E.M > 0
+m1Sig$box <- m1Sig$logFC.maleVirgins_E.M < 0 # determines the scatter points
 
 
 boxplot(NULL, NULL,
+		m1Sig$logFC.maleVirgins_E.M[m1Sig$FDR.maleVirgins_E.M<0.05 & m1Sig$logFC.maleVirgins_E.M>0 & m1Sig$all=="all"],
 		abs(m1Sig$logFC.maleVirgins_E.M[m1Sig$FDR.maleVirgins_E.M<0.05 & m1Sig$logFC.maleVirgins_E.M<0 & m1Sig$all=="all"]), add=T, xlab='null',
-		m1Sig$logFC.maleVirgins_E.M[m1Sig$FDR.maleVirgins_E.M<0.05 & m1Sig$logFC.maleVirgins_E.M>0 & m1Sig$all=="all"], col=c('gray30','gray60','red','pink'))
+		col=c('gray60','gray30','pink','red'))
 
 m1Sig$box <- factor(m1Sig$box)
 mylevels <- levels(m1Sig$box)
