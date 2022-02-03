@@ -133,9 +133,21 @@ write.table(data.frame(merged6$gene, merged6$FDR.Mboth.up), file=file.path(outpa
 pdf(file.path(outpath,"virginMatedOVPlot.pdf"), width=6, height=6)
 par(mar=c(5,5,4,3))
 
+<<<<<<< HEAD
 plot(ovdata$logFC.allEvsM, ovdata$logFC.E.MvsEE.MM*(-1), xlab="logFC E vs M", ylab="logFC virgin vs mated", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
 points(ovdata$logFC.allEvsM[ovdata$FDR.allEvsM<0.05], ovdata$logFC.E.MvsEE.MM[ovdata$FDR.allEvsM<0.05]*(-1),  pch=5, col=cborange)
 points(ovdata$logFC.allEvsM[ovdata$FDR.E.MvsEE.MM<0.05], ovdata$logFC.E.MvsEE.MM[ovdata$FDR.E.MvsEE.MM<0.05]*(-1),  pch=2, col=cbblue)
+=======
+<<<<<<< HEAD
+plot(ovdata$logFC.allEvsM, ovdata$logFC.E.MvsEE.MM, xlab="logFC M vs E", ylab="logFC mated vs virgin", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(ovdata$logFC.allEvsM[ovdata$FDR.allEvsM<0.05], ovdata$logFC.E.MvsEE.MM[ovdata$FDR.allEvsM<0.05],  pch=2, col=cbblue)
+points(ovdata$logFC.allEvsM[ovdata$FDR.E.MvsEE.MM<0.05], ovdata$logFC.E.MvsEE.MM[ovdata$FDR.E.MvsEE.MM<0.05],  pch=5, col=cborange)
+=======
+plot(ovdata$logFC.allEvsM, ovdata$logFC.E.MvsEE.MM, xlab="logFC E vs M", ylab="logFC virgin vs mated", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
+points(ovdata$logFC.allEvsM[ovdata$FDR.allEvsM<0.05], ovdata$logFC.E.MvsEE.MM[ovdata$FDR.allEvsM<0.05],  pch=5, col=cborange)
+points(ovdata$logFC.allEvsM[ovdata$FDR.E.MvsEE.MM<0.05], ovdata$logFC.E.MvsEE.MM[ovdata$FDR.E.MvsEE.MM<0.05],  pch=2, col=cbblue)
+>>>>>>> 2b3763c37c6e37a13e127d4b3224c098c651692d
+>>>>>>> deba206d59ae397a9be6148cb8b37b8cb8fc9791
 # points(ovdata$logFC.EvsM[ovdata$FDR.E.MMvsM.EE<0.05], ovdata$logFC.E.MvsEE.MM[ovdata$FDR.E.MMvsM.EE<0.05],  pch=4, col=cbgreen)
 legend("topleft", inset=0.05, legend=c("Virgin vs mated (43)", "E vs M (604)"), col =c(cbblue, cborange), pch=c(2,5), cex=.8 ) 
 # plot(ovdata$logFC.MvsMM*(-1), ovdata$logFC.EvsEE*(-1), xlab="logFC M vs MM", ylab="logFC E vs EE", main="", cex.main=1.8, cex.lab=1.3, col=sgrey, pch=20)
