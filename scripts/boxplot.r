@@ -50,8 +50,17 @@ for(i in 1:length(mylevels)){
 
 dev.off()
 
+wilcox.test(abs(male_data$logfc[male_data$mating=="aate_M"]), male_data$logfc[male_data$mating=="aate_E"])
+# W = 14712, p-value = 0.2098 testis E.M
 
+wilcox.test(abs(male_data$logfc[male_data$mating=="ag_M"]), male_data$logfc[male_data$mating=="ag_E"])
+# W = 752, p-value = 0.7753 ag E.M
 
+wilcox.test(abs(female_data$logfc[female_data$mating=="frt_M"]), female_data$logfc[female_data$mating=="frt_E"])
+# W = 302, p-value = 8.916e-08 frt E.M
+
+wilcox.test(abs(female_data$logfc[female_data$mating=="ov_M"]), female_data$logfc[female_data$mating=="ov_E"])
+# W = 2452, p-value = 0.2097 ov E.M
 
 frt_data <- read.table(file.path(datapath, 'frt_vm_data.txt'), header=T)
 ov_data <- read.table(file.path(datapath, 'ov_vm_data.txt'), header=T)
