@@ -16,7 +16,7 @@ agcpsdata <- merge(mergedA, orthodata, by.x="id", by.y="id", all=T )
 # findlaydata <- read.table('~/git/dpse_mating/input/agcp/not used/findlay.txt', header=T) # Findlay 2014 https://doi.org/10.1371/journal.pgen.1004108
 # str(findlaydata)
 
-agdata <- read.table('/Users/pveltsos/Library/Mobile Documents/com~apple~CloudDocs/MyDocuments/Work/Projects/gitOut/dpseMating/dedata/agland/LogCPM_0.05_agland.txt', header=T) # data from DE analysis
+agdata <- read.table('~/git/dpse_mating/output/dedata/agland/LogCPM_0.05_agland.txt', header=T) # data from DE analysis
 str(agdata)
 
 # merged2 <- merge(agdata, findlaydata, by.x="gene", by.y="id", all=F ) # could be used to compare to Findlay 2014 genes
@@ -34,9 +34,32 @@ deonly <- subset(merged1, merged1$FDR.maleVirgins_E.M < 0.05 & merged1$all=="all
 summary(deonly)
 
 
-par(mfrow=c(1,2)) 
-par(mar=c(5,5,4,3), oma=c(0,0,2,0))
+# par(mfrow=c(1,2)) 
+# par(mar=c(5,5,4,3), oma=c(0,0,2,0))
 # boxplot(agdata$logFC.maleVirgins_E.M, merged1$logFC.maleVirgins_E.M[merged1$all=="all"], merged1$logFC.maleVirgins_E.M[merged1$agcpS=="agcpS"], merged1$logFC.maleVirgins_E.M[merged1$ortho=="ortho"], names=list('All RNAseq', 'All proteome', 'Secretome', 'SFP'), col=c(2,'gray50',3,4), ylab='logFC', cex.lab=1.3)
+
+
+pdf(file.path(outpath, paste('agcpPlot.pdf', sep="")), width=12, height=6) # Fig 2
+par(mfrow=c(1,2)) 
+plot(density(merged1$logFC.maleVirgins_E.M), xlim=range(-2,2), main='AG E vs M (all)', col=2)
+lines(density(merged1$logFC.maleVirgins_E.M), col=2, lw=2)
+lines(density(agdata$logFC.maleVirgins_E.M), col=1, lw=2)
+lines(density(merged1$logFC.maleVirgins_E.M[merged1$agcpS=="agcpS"], na.rm=T), col=3, lw=2)
+lines(density(merged1$logFC.maleVirgins_E.M[merged1$ortho=="ortho"], na.rm=T), col=4, lw=2)
+# rug(agdata$logFC.maleVirgins_E.M, col=1, ticksize=0.01, line=2.5)
+# rug(merged1$logFC.maleVirgins_E.M, col=2, ticksize=0.01, line=3.0)
+# legend('topleft', inset=0.05, legend=c('All genes', 'Findlay homologues (76/89/138)'), pch =c(19,19), col=c(1,2), cex=0.8 )
+# legend('topright', inset=0.05, legend=c('W=48552, p=0.19'),  cex=0.8 )
+legend('topleft', inset=0.05, legend=c('All RNAseq', 'All proteome', 'Secretome', 'SFP'), pch =c(19,19), col=c(1,2,3,4), cex=0.8 )
+# legend('topright', inset=0.05, legend=c('W=21345000, p=<0.001'),  cex=0.8 )
+abline(v=0, lty=2)
+wilcox.test(agdata$logFC.maleVirgins_E.M, merged1$logFC.maleVirgins_E.M) # significant
+wilcox.test(merged1$logFC.maleVirgins_E.M, merged1$logFC.maleVirgins_E.M[merged1$agcpS=="agcpS"]) # NS
+wilcox.test(merged1$logFC.maleVirgins_E.M, merged1$logFC.maleVirgins_E.M[merged1$ortho=="ortho"]) # NS
+wilcox.test(agdata$logFC.maleVirgins_E.M, merged1$logFC.maleVirgins_E.M[merged1$agcpS=="agcpS"]) # significant
+wilcox.test(agdata$logFC.maleVirgins_E.M, merged1$logFC.maleVirgins_E.M[merged1$ortho=="ortho"]) # NS
+wilcox.test(merged1$logFC.maleVirgins_E.M[merged1$agcpS=="agcpS"], merged1$logFC.maleVirgins_E.M[merged1$ortho=="ortho"]) # NS
+
 
 
 agdataSig <- subset(agdata, agdata$FDR.maleVirgins_E.M < 0.05)
@@ -89,40 +112,20 @@ for(i in 1:length(mylevels)){
 
 
 
-pdf(file.path(outpath,paste('agcpPlot.pdf', sep="")), width=12, height=6) # Fig 2
-par(mfrow=c(1,2)) 
-plot(density(merged1$logFC.maleVirgins_E.M), xlim=range(-2,2), main='AG E vs M (all)', col=2)
-lines(density(merged1$logFC.maleVirgins_E.M), col=2, lw=2)
-lines(density(agdata$logFC.maleVirgins_E.M), col=1, lw=2)
-lines(density(merged1$logFC.maleVirgins_E.M[merged1$agcpS=="agcpS"], na.rm=T), col=3, lw=2)
-lines(density(merged1$logFC.maleVirgins_E.M[merged1$ortho=="ortho"], na.rm=T), col=4, lw=2)
+# replaced with boxplot
+# plot(density(merged1$logFC.maleVirgins_E.M[merged1$FDR.maleVirgins_E.M<0.05]), main='AG E vs M (FDR<0.05)', xlim=range(-6,6), col=1)
+# lines(density(merged1$logFC.maleVirgins_E.M[merged1$FDR.maleVirgins_E.M<0.05]), col=1, lw=2)
+# lines(density(agdata$logFC.maleVirgins_E.M[agdata$FDR.maleVirgins_E.M<0.05]), col=2, lw=2)
+# # lines(density(merged1$logFC.maleVirgins_E.M[merged1$FDR.maleVirgins_E.M<0.05 & merged1$agcpS=="agcpS"], na.rm=T), col=3)
+# # lines(density(merged1$logFC.maleVirgins_E.M[merged1$FDR.maleVirgins_E.M<0.05 & merged1$ortho=="ortho"], na.rm=T), col=4)
 # rug(agdata$logFC.maleVirgins_E.M, col=1, ticksize=0.01, line=2.5)
 # rug(merged1$logFC.maleVirgins_E.M, col=2, ticksize=0.01, line=3.0)
-# legend('topleft', inset=0.05, legend=c('All genes', 'Findlay homologues (76/89/138)'), pch =c(19,19), col=c(1,2), cex=0.8 )
-# legend('topright', inset=0.05, legend=c('W=48552, p=0.19'),  cex=0.8 )
-legend('topleft', inset=0.05, legend=c('All RNAseq', 'All proteome', 'Secretome', 'SFP'), pch =c(19,19), col=c(1,2,3,4), cex=0.8 )
-# legend('topright', inset=0.05, legend=c('W=21345000, p=<0.001'),  cex=0.8 )
-abline(v=0, lty=2)
-wilcox.test(agdata$logFC.maleVirgins_E.M, merged1$logFC.maleVirgins_E.M) # significant
-wilcox.test(merged1$logFC.maleVirgins_E.M, merged1$logFC.maleVirgins_E.M[merged1$agcpS=="agcpS"]) # NS
-wilcox.test(merged1$logFC.maleVirgins_E.M, merged1$logFC.maleVirgins_E.M[merged1$ortho=="ortho"]) # NS
-wilcox.test(agdata$logFC.maleVirgins_E.M, merged1$logFC.maleVirgins_E.M[merged1$agcpS=="agcpS"]) # significant
-wilcox.test(agdata$logFC.maleVirgins_E.M, merged1$logFC.maleVirgins_E.M[merged1$ortho=="ortho"]) # NS
-wilcox.test(merged1$logFC.maleVirgins_E.M[merged1$agcpS=="agcpS"], merged1$logFC.maleVirgins_E.M[merged1$ortho=="ortho"]) # NS
-
-plot(density(merged1$logFC.maleVirgins_E.M[merged1$FDR.maleVirgins_E.M<0.05]), main='AG E vs M (FDR<0.05)', xlim=range(-6,6), col=1)
-lines(density(merged1$logFC.maleVirgins_E.M[merged1$FDR.maleVirgins_E.M<0.05]), col=1, lw=2)
-lines(density(agdata$logFC.maleVirgins_E.M[agdata$FDR.maleVirgins_E.M<0.05]), col=2, lw=2)
-# lines(density(merged1$logFC.maleVirgins_E.M[merged1$FDR.maleVirgins_E.M<0.05 & merged1$agcpS=="agcpS"], na.rm=T), col=3)
-# lines(density(merged1$logFC.maleVirgins_E.M[merged1$FDR.maleVirgins_E.M<0.05 & merged1$ortho=="ortho"], na.rm=T), col=4)
-rug(agdata$logFC.maleVirgins_E.M, col=1, ticksize=0.01, line=2.5)
-rug(merged1$logFC.maleVirgins_E.M, col=2, ticksize=0.01, line=3.0)
-# legend('topleft', inset=0.05, legend=c('DE genes', 'Findlay homologues'), pch =c(19,19), col=c(1,2), cex=0.8 )
-legend('topleft', inset=0.05, legend=c('All RNAseq', 'All proteome'), pch =c(19,19), col=c(1,2), cex=0.8 )
+# # legend('topleft', inset=0.05, legend=c('DE genes', 'Findlay homologues'), pch =c(19,19), col=c(1,2), cex=0.8 )
+# legend('topleft', inset=0.05, legend=c('All RNAseq', 'All proteome'), pch =c(19,19), col=c(1,2), cex=0.8 )
 
 dev.off()
 
-# testis omnibus genes
+# Testis omnibus genes - not used
 # testdata <- read.table('~/git/dpse_mating/output/dedata/testis/LogCPM_0.05_testis.txt', header=T)
 # str(testdata)
 # 
